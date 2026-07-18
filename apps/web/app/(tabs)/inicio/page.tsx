@@ -101,7 +101,7 @@ export default function Inicio() {
   return (
     <div ref={pageRef} className="flex flex-col pb-nav">
       {/* Header */}
-      <div ref={headerRef} className="px-5 pt-8 pb-4">
+      <div ref={headerRef} className="px-5 pt-safe pb-4">
         <div className="flex items-start justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-[var(--color-text)] leading-snug">

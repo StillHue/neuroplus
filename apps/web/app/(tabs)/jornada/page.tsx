@@ -103,7 +103,7 @@ function JornadaContent() {
   return (
     <div ref={pageRef} className="flex flex-col pb-nav">
       {/* Header */}
-      <div ref={headerRef} className="px-5 pt-8 pb-4">
+      <div ref={headerRef} className="px-5 pt-safe pb-4">
         <h1 className="text-2xl font-semibold text-[var(--color-text)]">Jornada</h1>
         <p className="mt-0.5 font-serif italic text-[var(--color-muted)] text-sm">
           Sua rota de diagnóstico e cuidado
@@ -261,7 +261,7 @@ function StepRow({ step }: { step: JourneyStep }) {
 
 function TriageCTA() {
   return (
-    <div className="flex flex-col items-center justify-center gap-6 px-8 pt-24 pb-nav">
+    <div className="flex flex-col items-center justify-center gap-6 px-8 pt-safe pb-nav">
       <div className="flex h-20 w-20 items-center justify-center rounded-full bg-[var(--color-accent)]">
         <span className="text-3xl text-[var(--color-accent)]">✦</span>
       </div>

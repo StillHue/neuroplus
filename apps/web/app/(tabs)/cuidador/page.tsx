@@ -134,7 +134,7 @@ export default function Cuidador() {
 
   return (
     <div ref={pageRef} className="flex min-h-full flex-col bg-[var(--color-bg)] pb-nav">
-      <div ref={headerRef} className="px-5 pt-8 pb-4">
+      <div ref={headerRef} className="px-5 pt-safe pb-4">
         <div className="flex items-start justify-between gap-3">
           <div>
             <h1 className="text-2xl font-semibold text-[var(--color-text)]">Seu espaço</h1>

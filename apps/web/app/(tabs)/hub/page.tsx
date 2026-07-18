@@ -124,7 +124,7 @@ export default function Hub() {
   return (
     <div ref={pageRef} className="flex flex-col pb-nav">
       {/* Header */}
-      <div ref={headerRef} className="px-5 pt-8 pb-4">
+      <div ref={headerRef} className="px-5 pt-safe pb-4">
         <h1 className="text-2xl font-semibold text-[var(--color-text)]">Hub</h1>
         <p className="mt-0.5 font-serif italic text-[var(--color-muted)] text-sm">
           Quem pode ver o quê sobre seu filho

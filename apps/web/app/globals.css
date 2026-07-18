@@ -25,6 +25,7 @@
     --nav-height: 72px;
     --nav-margin-x: 16px;
     --nav-margin-b: 16px;
+    --safe-area-top: env(safe-area-inset-top, 0px);
     --safe-area-bottom: env(safe-area-inset-bottom, 0px);
     --nav-clearance: calc(var(--nav-height) + var(--nav-margin-b) + var(--safe-area-bottom) + 12px);
   }
@@ -90,6 +91,10 @@
 @layer utilities {
   .pb-nav {
     padding-bottom: var(--nav-clearance);
+  }
+
+  .pt-safe {
+    padding-top: calc(var(--safe-area-top) + 2rem);
   }
 
   .bg-caregiver-gradient {
