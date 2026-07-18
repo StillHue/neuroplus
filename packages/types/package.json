@@ -1,0 +1,17 @@
+{
+  "name": "@neuroplus/types",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./entities/*": "./entities/*.ts",
+    "./api/*": "./api/*.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

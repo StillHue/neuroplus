@@ -1,0 +1,30 @@
+{
+  "name": "@neuroplus/hooks",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./index.ts",
+  "exports": {
+    ".": "./index.ts",
+    "./auth": "./auth/index.ts",
+    "./accessibility": "./accessibility/index.ts",
+    "./ui": "./ui/index.ts",
+    "./data": "./data/index.ts",
+    "./domain": "./domain/index.ts"
+  },
+  "scripts": {
+    "lint": "eslint . --ext .ts,.tsx",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@neuroplus/types": "*",
+    "zustand": "^5.0.0"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@neuroplus/config": "*",
+    "@types/react": "^19.0.0",
+    "typescript": "^5.0.0"
+  }
+}

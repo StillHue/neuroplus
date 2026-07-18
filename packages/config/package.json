@@ -1,0 +1,10 @@
+{
+  "name": "@neuroplus/config",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./eslint": "./eslint/index.js",
+    "./typescript": "./typescript/base.json",
+    "./tailwind": "./tailwind/index.ts"
+  }
+}

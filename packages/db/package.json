@@ -1,0 +1,24 @@
+{
+  "name": "@neuroplus/db",
+  "version": "0.1.0",
+  "private": true,
+  "main": "./index.ts",
+  "scripts": {
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:migrate:prod": "prisma migrate deploy",
+    "db:seed": "tsx seed/index.ts",
+    "db:studio": "prisma studio",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@neuroplus/types": "*",
+    "@prisma/client": "^5.0.0"
+  },
+  "devDependencies": {
+    "@neuroplus/config": "*",
+    "prisma": "^5.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  }
+}
