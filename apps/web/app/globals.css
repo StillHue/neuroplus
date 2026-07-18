@@ -1,0 +1,108 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-scale: 1;
+    font-size: calc(16px * var(--font-scale));
+
+    --nav-height: 72px;
+    --nav-margin-x: 16px;
+    --nav-margin-b: 16px;
+    --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+    --nav-clearance: calc(var(--nav-height) + var(--nav-margin-b) + var(--safe-area-bottom) + 12px);
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+  }
+
+  html {
+    overscroll-behavior: none;
+    background-color: #EFEFEF;
+  }
+
+  body {
+    background-color: #F5F5F5;
+    color: #111111;
+    font-family: var(--font-poppins), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    min-height: 100dvh;
+    min-height: 100vh;
+  }
+
+  button, a, [role="button"], [role="tab"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  [data-reduced-motion="true"] *,
+  [data-reduced-motion="true"] *::before,
+  [data-reduced-motion="true"] *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  [data-high-contrast="true"] button,
+  [data-high-contrast="true"] a {
+    outline: 2px solid currentColor;
+  }
+}
+
+@layer utilities {
+  .pb-nav {
+    padding-bottom: var(--nav-clearance);
+  }
+
+  .bg-caregiver-gradient {
+    background: #FAFAFA;
+  }
+
+  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+  /* Phone-frame shell — 430px max, centred on desktop */
+  .app-shell {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    max-width: 430px;
+    min-height: 100dvh;
+    min-height: 100vh;
+    background-color: #F5F5F5;
+    box-shadow: 0 0 0 1px rgba(0,0,0,0.06), 0 8px 48px rgba(0,0,0,0.12);
+    overflow: hidden;
+  }
+
+  /* Checkbox custom style */
+  .check-box {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border: 1.5px solid #CCCCCC;
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .check-box:checked {
+    background: #111111;
+    border-color: #111111;
+  }
+  .check-box:checked::after {
+    content: "";
+    display: block;
+    width: 5px;
+    height: 9px;
+    border: 2px solid #fff;
+    border-top: none;
+    border-left: none;
+    transform: rotate(45deg) translate(-1px, -1px);
+  }
+}
