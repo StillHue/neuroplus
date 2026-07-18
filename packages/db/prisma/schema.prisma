@@ -1,0 +1,238 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─── Enums ───────────────────────────────────────────────────────────────────
+
+enum PlanTier {
+  FREE
+  PREMIUM
+  BUSINESS
+}
+
+enum CaregiverRole {
+  MOM
+  DAD
+  GRANDPARENT
+  BABYSITTER
+  TEACHER
+  THERAPIST
+  OTHER
+}
+
+enum RoutineCategory {
+  FEEDING
+  SLEEP
+  CRISIS
+  SCHOOL
+  MEDICATION
+  OTHER
+}
+
+enum ConsentStatus {
+  GRANTED
+  REVOKED
+}
+
+enum DiagnosisPhase {
+  PRE_DIAGNOSIS
+  IN_PROGRESS
+  POST_DIAGNOSIS
+}
+
+// ─── Auth ─────────────────────────────────────────────────────────────────────
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+// ─── Core ─────────────────────────────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  email         String    @unique
+  emailVerified DateTime?
+  name          String?
+  avatarUrl     String?
+  plan          PlanTier  @default(FREE)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts  Account[]
+  sessions  Session[]
+  // Primary caregiver: created the family profile
+  families  FamilyMember[]
+  notes     Note[]
+  wellbeingCheckins WellbeingCheckin[]
+}
+
+// Family = the child's profile + all caregivers attached to it
+model Family {
+  id             String         @id @default(cuid())
+  childName      String
+  childBirthDate DateTime?
+  diagnosisPhase DiagnosisPhase @default(PRE_DIAGNOSIS)
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+
+  members         FamilyMember[]
+  routineEntries  RoutineEntry[]
+  consents        Consent[]
+  triageResults   TriageResult[]
+  aiInsights      AiInsight[]
+}
+
+// Junction: User ↔ Family with role
+model FamilyMember {
+  id        String        @id @default(cuid())
+  userId    String
+  familyId  String
+  role      CaregiverRole @default(MOM)
+  joinedAt  DateTime      @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  family Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, familyId])
+}
+
+// ─── Routine Entries ──────────────────────────────────────────────────────────
+
+model RoutineEntry {
+  id         String          @id @default(cuid())
+  familyId   String
+  category   RoutineCategory
+  occurredAt DateTime
+  durationMin Int?
+  severity   Int?            // 1-5 for crises
+  notes      String?
+  audioUrl   String?         // Premium: transcribed from audio
+  createdAt  DateTime        @default(now())
+
+  family  Family           @relation(fields: [familyId], references: [id], onDelete: Cascade)
+  tags    RoutineEntryTag[]
+}
+
+model RoutineEntryTag {
+  id      String @id @default(cuid())
+  entryId String
+  tag     String
+
+  entry RoutineEntry @relation(fields: [entryId], references: [id], onDelete: Cascade)
+}
+
+// ─── Notes (Caregiver notepad) ────────────────────────────────────────────────
+
+model Note {
+  id        String   @id @default(cuid())
+  userId    String
+  familyId  String?
+  text      String
+  insight   String?  // AI-generated
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─── Wellbeing ────────────────────────────────────────────────────────────────
+
+model WellbeingCheckin {
+  id        String   @id @default(cuid())
+  userId    String
+  level     Int      // 1-5
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+// ─── Hub: Consent ─────────────────────────────────────────────────────────────
+
+model Consent {
+  id             String        @id @default(cuid())
+  familyId       String
+  grantedToEmail String        // professional's email
+  grantedToRole  String        // "Terapeuta", "Escola", etc.
+  dataScope      String        // "evolucao_escolar", "laudo_medico", etc.
+  status         ConsentStatus @default(GRANTED)
+  grantedAt      DateTime      @default(now())
+  revokedAt      DateTime?
+  // LGPD audit log — immutable
+  consentLog     ConsentLog[]
+
+  family Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+}
+
+model ConsentLog {
+  id        String        @id @default(cuid())
+  consentId String
+  action    ConsentStatus
+  actorId   String        // userId who performed the action
+  ip        String?
+  userAgent String?
+  createdAt DateTime      @default(now())
+
+  consent Consent @relation(fields: [consentId], references: [id], onDelete: Cascade)
+}
+
+// ─── Triage ───────────────────────────────────────────────────────────────────
+
+model TriageResult {
+  id              String   @id @default(cuid())
+  familyId        String
+  rawTranscript   String
+  suggestedRoute  Json     // array of JourneyStep
+  createdAt       DateTime @default(now())
+
+  family Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+}
+
+// ─── AI Insights (Free: blocked, Premium: unlocked) ──────────────────────────
+
+model AiInsight {
+  id          String   @id @default(cuid())
+  familyId    String
+  title       String
+  description String
+  lockedForFree Boolean @default(true)
+  data        Json?
+  createdAt   DateTime @default(now())
+
+  family Family @relation(fields: [familyId], references: [id], onDelete: Cascade)
+}
