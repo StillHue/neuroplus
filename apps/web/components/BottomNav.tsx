@@ -7,6 +7,7 @@ import { Home, BarChart2, User, Plus } from "lucide-react"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { cn } from "@/lib/utils"
+import { useNav } from "@/components/NavContext"
 
 const TABS: {
   href: string
@@ -28,6 +29,7 @@ export function BottomNav({ badges = {} }: BottomNavProps) {
   const navRef     = useRef<HTMLElement>(null)
   const labelRefs  = useRef<(HTMLSpanElement | null)[]>([])
   const pillRefs   = useRef<(HTMLSpanElement | null)[]>([])
+  const { hidden } = useNav()
 
   function isActive(href: string) {
     return pathname === href || pathname.startsWith(href + "/")
@@ -43,6 +45,17 @@ export function BottomNav({ badges = {} }: BottomNavProps) {
       delay: 0.1,
     })
   }, { scope: navRef })
+
+  // Hide/show when a sheet is open
+  useGSAP(() => {
+    gsap.to(navRef.current, {
+      y: hidden ? 120 : 0,
+      opacity: hidden ? 0 : 1,
+      duration: 0.3,
+      ease: hidden ? "power2.in" : "power3.out",
+      pointerEvents: hidden ? "none" : "auto",
+    })
+  }, { dependencies: [hidden], scope: navRef })
 
   // Active-tab change: expand label on active, collapse on inactive
   useGSAP(() => {

@@ -3,6 +3,7 @@
 import { useState, useRef } from "react"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
+import { useHideNav } from "@/components/NavContext"
 import {
   Frown, Meh, Smile, SmilePlus, Laugh,
   PenLine, Send, Lightbulb, CheckCircle2,
@@ -348,6 +349,7 @@ function InviteSheet({
   onClose: () => void
   onInvite: (c: Caregiver) => void
 }) {
+  useHideNav()
   const [name, setName]   = useState("")
   const [email, setEmail] = useState("")
   const [role, setRole]   = useState<CaregiverRole>("DAD")

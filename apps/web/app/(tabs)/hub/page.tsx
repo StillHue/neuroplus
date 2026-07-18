@@ -3,6 +3,7 @@
 import { useState, useRef } from "react"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
+import { useHideNav } from "@/components/NavContext"
 import { X, School, Stethoscope, Brain, ChevronDown, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { FilterTabs } from "@/components/ui/filter-tabs"
@@ -268,6 +269,7 @@ function RevokeSheet({
   onConfirm: () => void
   onCancel: () => void
 }) {
+  useHideNav()
   const backdropRef = useRef<HTMLDivElement>(null)
   const sheetRef    = useRef<HTMLDivElement>(null)
 

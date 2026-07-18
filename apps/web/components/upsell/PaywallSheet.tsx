@@ -4,6 +4,7 @@ import { useRef } from "react"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { X, Sparkles, FileText, Users, Mic, Check } from "lucide-react"
+import { useHideNav } from "@/components/NavContext"
 
 const PREMIUM_FEATURES = [
   { Icon: Sparkles, label: "Insights preditivos da IA desbloqueados" },
@@ -18,6 +19,7 @@ interface PaywallSheetProps {
 }
 
 export function PaywallSheet({ onClose, onSubscribe }: PaywallSheetProps) {
+  useHideNav()
   const backdropRef = useRef<HTMLDivElement>(null)
   const sheetRef    = useRef<HTMLDivElement>(null)
 

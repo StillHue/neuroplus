@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { X, Utensils, Moon, Zap, BookOpen, Pill, Plus, Minus } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useHideNav } from "@/components/NavContext"
 
 type Category = "FEEDING" | "SLEEP" | "CRISIS" | "SCHOOL" | "MEDICATION"
 
@@ -36,6 +37,7 @@ interface RoutineEntrySheetProps {
 }
 
 export function RoutineEntrySheet({ onClose, onSave }: RoutineEntrySheetProps) {
+  useHideNav()
   const [category, setCategory]   = useState<Category>("FEEDING")
   const [durationMin, setDuration] = useState(60)
   const [severity, setSeverity]   = useState(3)
