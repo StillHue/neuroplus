@@ -103,19 +103,19 @@ export default function TriagemPage() {
   }
 
   return (
-    <div ref={containerRef} className="app-shell flex h-dvh flex-col bg-[#F5F5F5]">
+    <div ref={containerRef} className="app-shell flex h-dvh flex-col bg-[#1c1e26]">
       {/* Header */}
-      <header className="flex items-center gap-3 bg-white px-4 py-3 shadow-[0_1px_0_#EBEBEB]">
+      <header className="flex items-center gap-3 bg-[#252830] px-4 py-3 shadow-[0_1px_0_#EBEBEB]">
         <button
           onClick={() => router.back()}
-          className="flex h-9 w-9 items-center justify-center rounded-full bg-[#F5F5F5] text-[#888888] transition-colors active:bg-[#EBEBEB]"
+          className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1c1e26] text-[#9a9eab] transition-colors active:bg-[#2f3340]"
           aria-label="Fechar triagem"
         >
           <X size={18} aria-hidden />
         </button>
         <div className="flex-1">
-          <p className="text-sm font-semibold text-[#111111]">Triagem</p>
-          <p className="text-xs text-[#AAAAAA]">Assistente Neuroplus</p>
+          <p className="text-sm font-semibold text-[#edeef2]">Triagem</p>
+          <p className="text-xs text-[#6b7080]">Assistente Neuroplus</p>
         </div>
         {loading && <TypingIndicator />}
       </header>
@@ -131,10 +131,10 @@ export default function TriagemPage() {
 
       {/* Input */}
       <div
-        className="bg-white px-4 py-3 shadow-[0_-1px_0_#EBEBEB]"
+        className="bg-[#252830] px-4 py-3 shadow-[0_-1px_0_#EBEBEB]"
         style={{ paddingBottom: "calc(12px + env(safe-area-inset-bottom, 0px))" }}
       >
-        <div className="flex items-end gap-2 rounded-2xl bg-[#F5F5F5] px-3 py-2">
+        <div className="flex items-end gap-2 rounded-2xl bg-[#1c1e26] px-3 py-2">
           <textarea
             ref={inputRef}
             value={input}
@@ -142,14 +142,14 @@ export default function TriagemPage() {
             onKeyDown={handleKeyDown}
             placeholder="Escreva aqui…"
             rows={1}
-            className="flex-1 resize-none bg-transparent py-1 text-sm leading-relaxed text-[#111111] outline-none placeholder:text-[#CCCCCC] max-h-28 overflow-y-auto"
+            className="flex-1 resize-none bg-transparent py-1 text-sm leading-relaxed text-[#edeef2] outline-none placeholder:text-[#4a4d58] max-h-28 overflow-y-auto"
             aria-label="Mensagem para o assistente"
             disabled={loading}
           />
           <button
             onClick={sendMessage}
             disabled={!input.trim() || loading}
-            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#111111] text-white transition-opacity active:opacity-80 disabled:opacity-30"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#6fb7b0] text-[#1c1e26] transition-opacity active:opacity-80 disabled:opacity-30"
             aria-label="Enviar mensagem"
           >
             <Send size={15} aria-hidden />
@@ -176,8 +176,8 @@ function ChatBubble({ message, onMount }: { message: Message; onMount: (el: HTML
         className={[
           "max-w-[82%] rounded-2xl px-4 py-3 text-sm leading-relaxed",
           isUser
-            ? "rounded-br-sm bg-[#111111] text-white"
-            : "rounded-bl-sm bg-white text-[#111111] shadow-card",
+            ? "rounded-br-sm bg-[#6fb7b0] text-[#1c1e26]"
+            : "rounded-bl-sm bg-[#252830] text-[#edeef2] shadow-card",
         ].join(" ")}
       >
         {message.content || <span className="opacity-30">…</span>}
@@ -189,12 +189,12 @@ function ChatBubble({ message, onMount }: { message: Message; onMount: (el: HTML
 function TypingBubble() {
   return (
     <div className="flex justify-start">
-      <div className="rounded-2xl rounded-bl-sm bg-white px-4 py-3 shadow-card">
+      <div className="rounded-2xl rounded-bl-sm bg-[#252830] px-4 py-3 shadow-card">
         <span className="flex h-5 items-center gap-1.5">
           {[0, 1, 2].map((i) => (
             <span
               key={i}
-              className="h-2 w-2 animate-pulse-dot rounded-full bg-[#CCCCCC]"
+              className="h-2 w-2 animate-pulse-dot rounded-full bg-[#4a4d58]"
               style={{ animationDelay: `${i * 0.2}s` }}
             />
           ))}
@@ -206,13 +206,13 @@ function TypingBubble() {
 
 function TypingIndicator() {
   return (
-    <span className="flex items-center gap-1 text-xs text-[#AAAAAA]">
+    <span className="flex items-center gap-1 text-xs text-[#6b7080]">
       digitando
       <span className="flex gap-0.5">
         {[0, 1, 2].map((i) => (
           <span
             key={i}
-            className="h-1.5 w-1.5 animate-pulse-dot rounded-full bg-[#CCCCCC]"
+            className="h-1.5 w-1.5 animate-pulse-dot rounded-full bg-[#4a4d58]"
             style={{ animationDelay: `${i * 0.2}s` }}
           />
         ))}

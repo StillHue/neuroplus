@@ -38,16 +38,16 @@ export function DateStrip() {
           className={cn(
             "flex flex-1 flex-col items-center gap-1 rounded-2xl py-2.5 transition-colors",
             d.isToday
-              ? "bg-[#111111] text-white"
-              : "text-[#AAAAAA] hover:bg-surface-border"
+              ? "bg-[#6fb7b0] text-[#1c1e26]"
+              : "text-[#6b7080] hover:bg-surface-border"
           )}
           aria-label={`${d.label} ${d.date}`}
           aria-current={d.isToday ? "date" : undefined}
         >
-          <span className={cn("text-[11px] leading-none", d.isToday ? "text-white/70" : "")}>
+          <span className={cn("text-[11px] leading-none", d.isToday ? "text-[#1c1e26]/70" : "")}>
             {d.label}
           </span>
-          <span className={cn("text-[15px] font-semibold leading-none", d.isToday ? "text-white" : "text-[#111111]")}>
+          <span className={cn("text-[15px] font-semibold leading-none", d.isToday ? "text-[#1c1e26]" : "text-[#edeef2]")}>
             {d.date}
           </span>
         </button>

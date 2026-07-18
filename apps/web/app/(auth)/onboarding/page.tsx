@@ -77,12 +77,12 @@ export default function Onboarding() {
   return (
     <div
       ref={containerRef}
-      className="flex min-h-dvh flex-col bg-[#F5F5F5] px-5 py-10"
+      className="flex min-h-dvh flex-col bg-[#1c1e26] px-5 py-10"
     >
       {/* Logo + progress */}
       <div className="mb-8 flex flex-col items-center gap-4">
-        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#111111]">
-          <Brain size={24} className="text-white" strokeWidth={1.75} aria-hidden />
+        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#6fb7b0]">
+          <Brain size={24} className="text-[#1c1e26]" strokeWidth={1.75} aria-hidden />
         </div>
         {/* Step dots */}
         <div className="flex gap-2">
@@ -91,16 +91,16 @@ export default function Onboarding() {
               key={i}
               className={cn(
                 "h-2 rounded-full transition-all duration-300",
-                i === step ? "w-6 bg-[#111111]" : i < step ? "w-2 bg-[#888888]" : "w-2 bg-[#DDDDDD]"
+                i === step ? "w-6 bg-[#6fb7b0]" : i < step ? "w-2 bg-[#888888]" : "w-2 bg-[#DDDDDD]"
               )}
             />
           ))}
         </div>
-        <p className="text-xs text-[#AAAAAA]">Passo {step + 1} de 3</p>
+        <p className="text-xs text-[#6b7080]">Passo {step + 1} de 3</p>
       </div>
 
       {/* Step card */}
-      <div ref={cardRef} className="w-full max-w-sm mx-auto rounded-3xl bg-white p-6 shadow-card">
+      <div ref={cardRef} className="w-full max-w-sm mx-auto rounded-3xl bg-[#252830] p-6 shadow-card">
         {step === 0 && (
           <StepChild data={data} onChange={(d) => setData((p) => ({ ...p, ...d }))} />
         )}
@@ -117,7 +117,7 @@ export default function Onboarding() {
         <button
           onClick={step === 2 ? finish : next}
           disabled={!canProceed}
-          className="flex w-full items-center justify-center gap-2 rounded-full bg-[#111111] py-4 text-sm font-semibold text-white transition-opacity active:opacity-80 disabled:opacity-40"
+          className="flex w-full items-center justify-center gap-2 rounded-full bg-[#6fb7b0] py-4 text-sm font-semibold text-[#1c1e26] transition-opacity active:opacity-80 disabled:opacity-40"
         >
           {step === 2 ? "Começar" : "Continuar"}
           <ChevronRight size={16} aria-hidden />
@@ -126,7 +126,7 @@ export default function Onboarding() {
         {step > 0 && (
           <button
             onClick={back}
-            className="w-full rounded-full py-3 text-sm font-medium text-[#888888] transition-colors active:bg-[#F0F0F0]"
+            className="w-full rounded-full py-3 text-sm font-medium text-[#9a9eab] transition-colors active:bg-[#252830]"
           >
             Voltar
           </button>
@@ -148,28 +148,28 @@ function StepChild({
   return (
     <div className="flex flex-col gap-5">
       <div className="flex items-center gap-3">
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F5F5F5]">
-          <Baby size={18} className="text-[#111111]" aria-hidden />
+        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1c1e26]">
+          <Baby size={18} className="text-[#edeef2]" aria-hidden />
         </span>
         <div>
-          <h2 className="font-semibold text-[#111111]">Sobre a criança</h2>
-          <p className="text-xs text-[#888888]">Vamos personalizar sua experiência</p>
+          <h2 className="font-semibold text-[#edeef2]">Sobre a criança</h2>
+          <p className="text-xs text-[#9a9eab]">Vamos personalizar sua experiência</p>
         </div>
       </div>
 
       <label className="flex flex-col gap-1.5">
-        <span className="text-xs font-medium text-[#666666]">Nome da criança</span>
+        <span className="text-xs font-medium text-[#9a9eab]">Nome da criança</span>
         <input
           type="text"
           value={data.childName}
           onChange={(e) => onChange({ childName: e.target.value })}
           placeholder="João"
-          className="rounded-xl border border-[#EBEBEB] bg-[#F9F9F9] px-4 py-3 text-sm text-[#111111] outline-none focus:border-[#111111] focus:bg-white transition-colors placeholder:text-[#CCCCCC]"
+          className="rounded-xl border border-[#2f3340] bg-[#22252e] px-4 py-3 text-sm text-[#edeef2] outline-none focus:border-[#6fb7b0] focus:bg-[#252830] transition-colors placeholder:text-[#4a4d58]"
         />
       </label>
 
       <label className="flex flex-col gap-1.5">
-        <span className="text-xs font-medium text-[#666666]">Ano de nascimento (opcional)</span>
+        <span className="text-xs font-medium text-[#9a9eab]">Ano de nascimento (opcional)</span>
         <input
           type="number"
           value={data.childBirthYear}
@@ -177,7 +177,7 @@ function StepChild({
           placeholder="2018"
           min={2000}
           max={new Date().getFullYear()}
-          className="rounded-xl border border-[#EBEBEB] bg-[#F9F9F9] px-4 py-3 text-sm text-[#111111] outline-none focus:border-[#111111] focus:bg-white transition-colors placeholder:text-[#CCCCCC]"
+          className="rounded-xl border border-[#2f3340] bg-[#22252e] px-4 py-3 text-sm text-[#edeef2] outline-none focus:border-[#6fb7b0] focus:bg-[#252830] transition-colors placeholder:text-[#4a4d58]"
         />
       </label>
     </div>
@@ -196,12 +196,12 @@ function StepDiagnosis({
   return (
     <div className="flex flex-col gap-5">
       <div className="flex items-center gap-3">
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F5F5F5]">
-          <Stethoscope size={18} className="text-[#111111]" aria-hidden />
+        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1c1e26]">
+          <Stethoscope size={18} className="text-[#edeef2]" aria-hidden />
         </span>
         <div>
-          <h2 className="font-semibold text-[#111111]">Em que fase vocês estão?</h2>
-          <p className="text-xs text-[#888888]">Isso define sua rota no app</p>
+          <h2 className="font-semibold text-[#edeef2]">Em que fase vocês estão?</h2>
+          <p className="text-xs text-[#9a9eab]">Isso define sua rota no app</p>
         </div>
       </div>
 
@@ -213,12 +213,12 @@ function StepDiagnosis({
             className={cn(
               "flex flex-col items-start rounded-2xl border px-4 py-3.5 text-left transition-all",
               data.diagnosisPhase === opt.value
-                ? "border-[#111111] bg-[#111111] text-white"
-                : "border-[#EBEBEB] bg-[#F9F9F9] text-[#111111] hover:border-[#CCCCCC]"
+                ? "border-[#6fb7b0] bg-[#6fb7b0] text-[#1c1e26]"
+                : "border-[#2f3340] bg-[#22252e] text-[#edeef2] hover:border-[#3a3f4d]"
             )}
           >
             <span className="text-sm font-semibold">{opt.label}</span>
-            <span className={cn("mt-0.5 text-xs", data.diagnosisPhase === opt.value ? "text-[#CCCCCC]" : "text-[#888888]")}>
+            <span className={cn("mt-0.5 text-xs", data.diagnosisPhase === opt.value ? "text-[#4a4d58]" : "text-[#9a9eab]")}>
               {opt.description}
             </span>
           </button>
@@ -240,12 +240,12 @@ function StepRole({
   return (
     <div className="flex flex-col gap-5">
       <div className="flex items-center gap-3">
-        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#F5F5F5]">
-          <Users size={18} className="text-[#111111]" aria-hidden />
+        <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1c1e26]">
+          <Users size={18} className="text-[#edeef2]" aria-hidden />
         </span>
         <div>
-          <h2 className="font-semibold text-[#111111]">Quem está cuidando?</h2>
-          <p className="text-xs text-[#888888]">Você pode adicionar outras pessoas depois</p>
+          <h2 className="font-semibold text-[#edeef2]">Quem está cuidando?</h2>
+          <p className="text-xs text-[#9a9eab]">Você pode adicionar outras pessoas depois</p>
         </div>
       </div>
 
@@ -257,8 +257,8 @@ function StepRole({
             className={cn(
               "flex flex-col items-center justify-center rounded-2xl border py-4 text-sm font-semibold transition-all",
               data.caregiverRole === opt.value
-                ? "border-[#111111] bg-[#111111] text-white"
-                : "border-[#EBEBEB] bg-[#F9F9F9] text-[#111111] hover:border-[#CCCCCC]"
+                ? "border-[#6fb7b0] bg-[#6fb7b0] text-[#1c1e26]"
+                : "border-[#2f3340] bg-[#22252e] text-[#edeef2] hover:border-[#3a3f4d]"
             )}
           >
             {opt.label}
@@ -266,8 +266,8 @@ function StepRole({
         ))}
       </div>
 
-      <div className="rounded-2xl bg-[#F5F5F5] px-4 py-3">
-        <p className="text-xs leading-relaxed text-[#666666]">
+      <div className="rounded-2xl bg-[#1c1e26] px-4 py-3">
+        <p className="text-xs leading-relaxed text-[#9a9eab]">
           <strong>Suas informações são protegidas.</strong> O neuroplus segue a LGPD e trata dados de saúde com consentimento explícito e granular.
         </p>
       </div>

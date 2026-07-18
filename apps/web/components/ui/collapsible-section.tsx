@@ -83,9 +83,9 @@ export function CollapsibleSection({
           style={{ rotate: open ? "0deg" : "-90deg" }}
           aria-hidden
         >
-          <ChevronDown size={16} strokeWidth={2.5} className="text-[#111111]" />
+          <ChevronDown size={16} strokeWidth={2.5} className="text-[#edeef2]" />
         </span>
-        <span className="text-[13px] font-semibold text-[#111111]">{title}</span>
+        <span className="text-[13px] font-semibold text-[#edeef2]">{title}</span>
       </button>
 
       {/* Always rendered — GSAP controls visibility via height/opacity */}

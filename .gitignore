@@ -62,3 +62,4 @@ service-account*.json
 
 # ── Claude ────────────────────────────────────────────────────
 .claude/
+.vercel

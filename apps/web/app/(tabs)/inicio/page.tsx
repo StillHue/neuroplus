@@ -4,7 +4,7 @@ import { useState, useRef } from "react"
 import { Sun, Moon, Utensils, Moon as MoonIcon, Zap, BookOpen, Pill } from "lucide-react"
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
-import ScrollTrigger from "gsap/ScrollTrigger"
+
 import { DateStrip } from "@/components/ui/date-strip"
 import { FilterTabs } from "@/components/ui/filter-tabs"
 import { CollapsibleSection } from "@/components/ui/collapsible-section"
@@ -81,16 +81,7 @@ export default function Inicio() {
   useGSAP(() => {
     const rows = listRef.current?.querySelectorAll<HTMLElement>(".entry-row")
     if (!rows?.length) return
-    rows.forEach((row) => {
-      gsap.from(row, {
-        opacity: 0, x: -8, duration: 0.3, ease: "power2.out",
-        scrollTrigger: {
-          trigger: row, scroller: "#main-content",
-          start: "top 95%", toggleActions: "play none none none",
-        },
-      })
-    })
-    return () => ScrollTrigger.getAll().forEach((t) => t.kill())
+    gsap.from(rows, { opacity: 0, x: -8, duration: 0.3, ease: "power2.out", stagger: 0.05 })
   }, { scope: listRef, dependencies: [filter] })
 
   function addEntry(e: Omit<RoutineEntry, "id">) {
@@ -111,15 +102,15 @@ export default function Inicio() {
       <div ref={headerRef} className="px-5 pt-8 pb-4">
         <div className="flex items-start justify-between">
           <div>
-            <h1 className="text-2xl font-semibold text-[#111111] leading-snug">
+            <h1 className="text-2xl font-semibold text-[#edeef2] leading-snug">
               {greeting}, Ana
             </h1>
-            <p className="mt-0.5 font-serif italic text-[#888888] text-sm">
+            <p className="mt-0.5 font-serif italic text-[#9a9eab] text-sm">
               Como o João está hoje?
             </p>
           </div>
           <button
-            className="flex h-10 w-10 items-center justify-center rounded-full bg-white shadow-card text-[#111111] active:bg-[#F0F0F0]"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-[#252830] shadow-card text-[#edeef2] active:bg-[#252830]"
             aria-label="Hora do dia"
           >
             <GreetIcon size={18} strokeWidth={1.75} aria-hidden />
@@ -129,7 +120,7 @@ export default function Inicio() {
 
       {/* Date strip */}
       <div ref={dateRef} className="px-5 pb-4">
-        <div className="rounded-2xl bg-white p-3 shadow-card">
+        <div className="rounded-2xl bg-[#252830] p-3 shadow-card">
           <DateStrip />
         </div>
       </div>
@@ -148,9 +139,9 @@ export default function Inicio() {
         {/* Quick add banner */}
         <button
           onClick={() => setSheetOpen(true)}
-          className="flex items-center gap-3 rounded-2xl border border-dashed border-[#DDDDDD] bg-white px-4 py-3.5 text-sm text-[#AAAAAA] transition-colors active:bg-[#F5F5F5] shadow-card"
+          className="flex items-center gap-3 rounded-2xl border border-dashed border-[#3a3f4d] bg-[#252830] px-4 py-3.5 text-sm text-[#6b7080] transition-colors active:bg-[#1c1e26] shadow-card"
         >
-          <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#F5F5F5] text-[#111111] text-lg font-light">+</span>
+          <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#1c1e26] text-[#edeef2] text-lg font-light">+</span>
           Registrar alimentação, sono, crise…
         </button>
 
@@ -159,7 +150,7 @@ export default function Inicio() {
           const groupEntries = visible.filter((e) => group.categories.includes(e.category))
           if (groupEntries.length === 0) return null
           return (
-            <div key={group.label} className="rounded-2xl bg-white shadow-card overflow-hidden">
+            <div key={group.label} className="rounded-2xl bg-[#252830] shadow-card overflow-hidden">
               <div className="px-4 py-3">
                 <CollapsibleSection title={group.label}>
                   <ul className="flex flex-col">
@@ -179,7 +170,7 @@ export default function Inicio() {
           const ungrouped = visible.filter((e) => !groupedCategories.includes(e.category))
           if (!ungrouped.length) return null
           return (
-            <div className="rounded-2xl bg-white shadow-card overflow-hidden">
+            <div className="rounded-2xl bg-[#252830] shadow-card overflow-hidden">
               <div className="px-4 py-3">
                 <CollapsibleSection title="Outros">
                   <ul className="flex flex-col">
@@ -194,13 +185,13 @@ export default function Inicio() {
         })()}
 
         {visible.length === 0 && (
-          <div className="flex flex-col items-center gap-3 rounded-2xl bg-white px-6 py-10 shadow-card text-center">
+          <div className="flex flex-col items-center gap-3 rounded-2xl bg-[#252830] px-6 py-10 shadow-card text-center">
             <span className="text-3xl">📋</span>
-            <p className="text-sm font-medium text-[#111111]">Nenhum registro hoje</p>
-            <p className="text-xs text-[#888888]">Toque em "Registrar" para começar a acompanhar a rotina do João.</p>
+            <p className="text-sm font-medium text-[#edeef2]">Nenhum registro hoje</p>
+            <p className="text-xs text-[#9a9eab]">Toque em "Registrar" para começar a acompanhar a rotina do João.</p>
             <button
               onClick={() => setSheetOpen(true)}
-              className="mt-1 rounded-full bg-[#111111] px-6 py-3 text-sm font-semibold text-white"
+              className="mt-1 rounded-full bg-[#6fb7b0] px-6 py-3 text-sm font-semibold text-[#1c1e26]"
             >
               Fazer primeiro registro
             </button>
@@ -234,17 +225,17 @@ function EntryRow({ entry }: { entry: RoutineEntry }) {
   }
 
   return (
-    <li className="entry-row flex items-start gap-3 border-b border-[#F5F5F5] py-3 last:border-0">
-      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#F5F5F5] text-[#111111]">
+    <li className="entry-row flex items-start gap-3 border-b border-[#2f3340] py-3 last:border-0">
+      <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-[#1c1e26] text-[#edeef2]">
         <meta.Icon size={15} strokeWidth={1.75} aria-hidden />
       </span>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium text-[#111111]">{meta.label}</p>
+        <p className="text-sm font-medium text-[#edeef2]">{meta.label}</p>
         {formatDetail() && (
-          <p className="mt-0.5 truncate text-xs text-[#888888]">{formatDetail()}</p>
+          <p className="mt-0.5 truncate text-xs text-[#9a9eab]">{formatDetail()}</p>
         )}
       </div>
-      <span className="shrink-0 text-[11px] text-[#AAAAAA]">
+      <span className="shrink-0 text-[11px] text-[#6b7080]">
         {entry.occurredAt.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })}
       </span>
     </li>

@@ -109,14 +109,14 @@ export function AudioRecorder({ isPremium, onEntries }: AudioRecorderProps) {
 
   return (
     <>
-      <div className="flex flex-col items-center gap-4 rounded-2xl bg-white p-5 shadow-card">
+      <div className="flex flex-col items-center gap-4 rounded-2xl bg-[#252830] p-5 shadow-card">
         <div className="flex items-center gap-2">
-          <Mic size={14} className="text-[#AAAAAA]" aria-hidden />
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#AAAAAA]">
+          <Mic size={14} className="text-[#6b7080]" aria-hidden />
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-[#6b7080]">
             Registro por áudio
           </span>
           {!isPremium && (
-            <span className="flex items-center gap-1 rounded-full bg-[#F5F5F5] px-2 py-0.5 text-[10px] font-semibold text-[#888888]">
+            <span className="flex items-center gap-1 rounded-full bg-[#1c1e26] px-2 py-0.5 text-[10px] font-semibold text-[#9a9eab]">
               <Crown size={9} aria-hidden /> Premium
             </span>
           )}
@@ -128,7 +128,7 @@ export function AudioRecorder({ isPremium, onEntries }: AudioRecorderProps) {
             ref={pulseRef}
             className={cn(
               "absolute h-16 w-16 rounded-full opacity-50",
-              state === "recording" ? "bg-[#111111]" : "bg-transparent"
+              state === "recording" ? "bg-[#6fb7b0]" : "bg-transparent"
             )}
             aria-hidden
           />
@@ -139,7 +139,7 @@ export function AudioRecorder({ isPremium, onEntries }: AudioRecorderProps) {
             aria-label={state === "recording" ? "Parar gravação" : "Iniciar gravação"}
             className={cn(
               "relative z-10 flex h-14 w-14 items-center justify-center rounded-full transition-all",
-              state === "recording" ? "bg-[#111111] text-white shadow-lg scale-110" : "bg-[#F5F5F5] text-[#111111]",
+              state === "recording" ? "bg-[#6fb7b0] text-[#1c1e26] shadow-lg scale-110" : "bg-[#1c1e26] text-[#edeef2]",
               state === "processing" && "opacity-50 cursor-not-allowed"
             )}
           >
@@ -156,15 +156,15 @@ export function AudioRecorder({ isPremium, onEntries }: AudioRecorderProps) {
         {/* Status */}
         <div className="text-center">
           {state === "idle" && (
-            <p className="text-xs text-[#888888]">
+            <p className="text-xs text-[#9a9eab]">
               {isPremium ? "Fale — a IA preenche o formulário" : "Disponível no plano Premium"}
             </p>
           )}
           {state === "recording" && (
-            <p className="text-sm font-semibold text-[#111111]">{formatTime(seconds)}</p>
+            <p className="text-sm font-semibold text-[#edeef2]">{formatTime(seconds)}</p>
           )}
           {state === "processing" && (
-            <p className="text-xs text-[#888888]">Transcrevendo e extraindo dados…</p>
+            <p className="text-xs text-[#9a9eab]">Transcrevendo e extraindo dados…</p>
           )}
           {state === "error" && (
             <p className="text-xs text-red-500">Erro ao processar. <button onClick={reset} className="underline">Tentar novamente</button></p>
@@ -173,23 +173,23 @@ export function AudioRecorder({ isPremium, onEntries }: AudioRecorderProps) {
 
         {/* Result */}
         {state === "done" && result && (
-          <div className="w-full rounded-xl bg-[#F5F5F5] px-4 py-3">
+          <div className="w-full rounded-xl bg-[#1c1e26] px-4 py-3">
             <div className="mb-2 flex items-center gap-1.5">
-              <Sparkles size={13} className="text-[#111111]" aria-hidden />
-              <span className="text-xs font-semibold text-[#111111]">Dados extraídos</span>
+              <Sparkles size={13} className="text-[#edeef2]" aria-hidden />
+              <span className="text-xs font-semibold text-[#edeef2]">Dados extraídos</span>
             </div>
-            <p className="mb-2 text-xs leading-relaxed text-[#666666]">{result.summary}</p>
+            <p className="mb-2 text-xs leading-relaxed text-[#9a9eab]">{result.summary}</p>
             {result.entries?.length > 0 && (
               <ul className="flex flex-col gap-1">
                 {result.entries.map((e, i) => (
-                  <li key={i} className="flex items-center gap-2 text-xs text-[#888888]">
-                    <span className="h-1.5 w-1.5 rounded-full bg-[#111111]" />
+                  <li key={i} className="flex items-center gap-2 text-xs text-[#9a9eab]">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#6fb7b0]" />
                     <strong>{e.category}</strong>: {e.notes}
                   </li>
                 ))}
               </ul>
             )}
-            <button onClick={reset} className="mt-3 text-xs text-[#888888] underline-offset-2 hover:underline">
+            <button onClick={reset} className="mt-3 text-xs text-[#9a9eab] underline-offset-2 hover:underline">
               Gravar outro áudio
             </button>
           </div>

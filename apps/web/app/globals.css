@@ -7,6 +7,14 @@
     --font-scale: 1;
     font-size: calc(16px * var(--font-scale));
 
+    --color-bg: #1c1e26;
+    --color-surface: #252830;
+    --color-text: #edeef2;
+    --color-accent: #6fb7b0;
+    --color-accent-fg: #1c1e26;
+    --color-muted: #9a9eab;
+    --color-border: #2f3340;
+
     --nav-height: 72px;
     --nav-margin-x: 16px;
     --nav-margin-b: 16px;
@@ -21,12 +29,13 @@
 
   html {
     overscroll-behavior: none;
-    background-color: #EFEFEF;
+    background-color: #1c1e26;
+    color-scheme: dark;
   }
 
   body {
-    background-color: #F5F5F5;
-    color: #111111;
+    background-color: #1c1e26;
+    color: #edeef2;
     font-family: var(--font-poppins), system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
     min-height: 100dvh;
@@ -57,7 +66,7 @@
   }
 
   .bg-caregiver-gradient {
-    background: #FAFAFA;
+    background: #1c1e26;
   }
 
   .typing-dot:nth-child(2) { animation-delay: 0.2s; }
@@ -72,8 +81,8 @@
     max-width: 430px;
     min-height: 100dvh;
     min-height: 100vh;
-    background-color: #F5F5F5;
-    box-shadow: 0 0 0 1px rgba(0,0,0,0.06), 0 8px 48px rgba(0,0,0,0.12);
+    background-color: #1c1e26;
+    box-shadow: 0 0 0 1px rgba(237,238,242,0.06), 0 8px 48px rgba(0,0,0,0.45);
     overflow: hidden;
   }
 
@@ -83,24 +92,24 @@
     width: 20px;
     height: 20px;
     min-width: 20px;
-    border: 1.5px solid #CCCCCC;
+    border: 1.5px solid #3a3f4d;
     border-radius: 6px;
-    background: #fff;
+    background: #252830;
     cursor: pointer;
     display: grid;
     place-items: center;
     transition: background 0.15s, border-color 0.15s;
   }
   .check-box:checked {
-    background: #111111;
-    border-color: #111111;
+    background: #6fb7b0;
+    border-color: #6fb7b0;
   }
   .check-box:checked::after {
     content: "";
     display: block;
     width: 5px;
     height: 9px;
-    border: 2px solid #fff;
+    border: 2px solid #1c1e26;
     border-top: none;
     border-left: none;
     transform: rotate(45deg) translate(-1px, -1px);
