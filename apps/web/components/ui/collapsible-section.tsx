@@ -34,7 +34,7 @@ export function CollapsibleSection({
   }, [])
 
   function toggle() {
-    if (!contentRef.current || !chevronRef.current) return
+    if (!contentRef.current || !chevronWrapRef.current) return
     const isOpening = !open
 
     if (isOpening) {
