@@ -1,6 +1,7 @@
 <div align="center">
+  <img src="./logoclean.png" alt="Neuro + Logo" width="220" />
 
-# 🧬 NEURO +
+# 🧬 Neuro +
 
 **O copiloto e navegador digital da jornada de famílias neurodivergentes no SUS.**
 
@@ -110,16 +111,9 @@ Para se aprofundar nas diretrizes de produto, arquitetura e relatórios de confo
 
 ## 👥 Equipe Envolvida
 
-<div align="center">
+*   🎨 **Ariadina** — Designer
+*   💼 **Débora** — Negócios
+*   💻 **Gabriel** — Desenvolvedor
+*   💼 **M. Beatriz** — Negócios
+*   💻 **Paulo H.** — Desenvolvedor
 
-![Equipe Neuro +](./logoclean.png)
-
-| Membro | Atribuição |
-| :--- | :--- |
-| **Ariadina** | Designer |
-| **Débora** | Negócios |
-| **Gabriel** | Desenvolvedor |
-| **M. Beatriz** | Negócios |
-| **Paulo H.** | Desenvolvedor |
-
-</div>
