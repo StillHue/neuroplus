@@ -1,7 +1,5 @@
 <div align="center">
-  <img src="./logoclean.png" alt="Neuro + Logo" width="220" />
-
-# 🧬 Neuro +
+  <img src="./logoclean.png" alt="Neuro + Logo" width="440" /><br/>
 
 **O copiloto e navegador digital da jornada de famílias neurodivergentes no SUS.**
 
