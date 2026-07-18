@@ -6,20 +6,20 @@ import gsap from "gsap"
 import ScrollTrigger from "gsap/ScrollTrigger"
 import { useAccessibilityPrefs } from "@neuroplus/hooks/accessibility"
 
-// Register all plugins once at the app root
 gsap.registerPlugin(useGSAP, ScrollTrigger)
 
 export function AccessibilityProvider({ children }: { children: React.ReactNode }) {
-  const { reducedMotion, highContrast, fontScale } = useAccessibilityPrefs()
+  const { theme, reducedMotion, highContrast, fontScale } = useAccessibilityPrefs()
 
   useEffect(() => {
     const root = document.documentElement
+    root.dataset.theme = theme
     root.dataset.reducedMotion = String(reducedMotion)
-    root.dataset.highContrast  = String(highContrast)
+    root.dataset.highContrast = String(highContrast)
     root.style.setProperty("--font-scale", String(fontScale))
-    // When reduced motion is on, all GSAP timelines complete instantly
+    root.style.colorScheme = theme
     gsap.globalTimeline.timeScale(reducedMotion ? 100 : 1)
-  }, [reducedMotion, highContrast, fontScale])
+  }, [theme, reducedMotion, highContrast, fontScale])
 
   return <>{children}</>
 }
