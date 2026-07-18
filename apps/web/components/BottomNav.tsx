@@ -8,10 +8,17 @@ import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { cn } from "@/lib/utils"
 
-const TABS = [
-  { href: "/inicio",   label: "Home",     Icon: Home     },
+interface TabItem {
+  href: string
+  label: string
+  Icon: React.ComponentType<any>
+  badge?: boolean
+}
+
+const TABS: readonly TabItem[] = [
+  { href: "/inicio",   label: "Home",     Icon: Home },
   { href: "/jornada",  label: "Insights", Icon: BarChart2, badge: true },
-  { href: "/cuidador", label: "Profile",  Icon: User     },
+  { href: "/cuidador", label: "Profile",  Icon: User },
 ] as const
 
 interface BottomNavProps {

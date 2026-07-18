@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "echo 'dashboard app not yet implemented'",
-    "build": "echo 'dashboard app not yet implemented'",
-    "start": "echo 'dashboard app not yet implemented'",
-    "lint": "echo 'dashboard app not yet implemented'",
-    "typecheck": "echo 'dashboard app not yet implemented'"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@neuroplus/auth": "*",
