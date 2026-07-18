@@ -1,6 +1,7 @@
 {
-  "buildCommand": "turbo run build --filter=@neuroplus/web",
-  "outputDirectory": "apps/web/.next",
-  "installCommand": "npm install",
-  "framework": "nextjs"
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "nextjs",
+  "installCommand": "npm install --include=dev",
+  "buildCommand": "npx turbo run build --filter=@neuroplus/web",
+  "ignoreCommand": "npx turbo-ignore @neuroplus/web"
 }

@@ -18,14 +18,10 @@
   },
   "workspaces": [
     "apps/*",
-    "packages/*",
-    "tooling/*"
+    "packages/*"
   ],
   "packageManager": "npm@11.12.1",
   "engines": {
     "node": ">=20.0.0"
-  },
-  "dependencies": {
-    "gsap": "^3.15.0"
   }
 }

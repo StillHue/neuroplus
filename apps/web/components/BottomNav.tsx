@@ -8,11 +8,16 @@ import { useGSAP } from "@gsap/react"
 import gsap from "gsap"
 import { cn } from "@/lib/utils"
 
-const TABS = [
+const TABS: {
+  href: string
+  label: string
+  Icon: typeof Home
+  badge?: boolean
+}[] = [
   { href: "/inicio",   label: "Home",     Icon: Home     },
   { href: "/jornada",  label: "Insights", Icon: BarChart2, badge: true },
   { href: "/cuidador", label: "Profile",  Icon: User     },
-] as const
+]
 
 interface BottomNavProps {
   badges?: { jornada?: number }

@@ -62,6 +62,3 @@ service-account*.json
 
 # ── Claude ────────────────────────────────────────────────────
 .claude/
-
-# ── Package lock (root only, keep workspace ones) ─────────────
-package-lock.json
