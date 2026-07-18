@@ -36,63 +36,63 @@ export function PaywallSheet({ onClose, onSubscribe }: PaywallSheetProps) {
       <div ref={backdropRef} className="fixed inset-0 z-40 bg-black/40" onClick={handleClose} aria-hidden />
       <div
         ref={sheetRef}
-        className="fixed bottom-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 rounded-t-[28px] bg-[#252830] shadow-sheet"
+        className="fixed bottom-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 rounded-t-[28px] bg-[var(--color-surface)] shadow-sheet"
         role="dialog" aria-modal aria-label="Assinar Premium"
       >
         <div className="flex justify-center pt-3 pb-1">
-          <span className="h-1 w-10 rounded-full bg-[#2f3340]" />
+          <span className="h-1 w-10 rounded-full bg-[var(--color-border)]" />
         </div>
 
         <div className="px-5 pb-8 pt-3">
           <div className="flex items-center justify-between mb-5">
             <div className="flex items-center gap-2">
-              <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[#6fb7b0]">
-                <Sparkles size={15} className="text-[#1c1e26]" aria-hidden />
+              <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[var(--color-accent)]">
+                <Sparkles size={15} className="text-[var(--color-accent-fg)]" aria-hidden />
               </span>
-              <span className="font-semibold text-[#edeef2]">neuroplus Premium</span>
+              <span className="font-semibold text-[var(--color-text)]">neuroplus Premium</span>
             </div>
             <button
               onClick={handleClose}
-              className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1c1e26] text-[#9a9eab]"
+              className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-bg)] text-[var(--color-muted)]"
               aria-label="Fechar"
             >
               <X size={18} aria-hidden />
             </button>
           </div>
 
-          <p className="mb-5 text-sm leading-relaxed text-[#9a9eab]">
+          <p className="mb-5 text-sm leading-relaxed text-[var(--color-muted)]">
             Desbloqueie análises completas da IA, histórico ilimitado e muito mais para apoiar sua família.
           </p>
 
           <ul className="mb-6 flex flex-col gap-3">
             {PREMIUM_FEATURES.map(({ Icon, label }) => (
               <li key={label} className="flex items-center gap-3">
-                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#1c1e26]">
-                  <Icon size={14} className="text-[#edeef2]" aria-hidden />
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[var(--color-bg)]">
+                  <Icon size={14} className="text-[var(--color-text)]" aria-hidden />
                 </span>
-                <span className="text-sm text-[#edeef2]">{label}</span>
-                <Check size={14} className="ml-auto text-[#edeef2]" aria-hidden />
+                <span className="text-sm text-[var(--color-text)]">{label}</span>
+                <Check size={14} className="ml-auto text-[var(--color-text)]" aria-hidden />
               </li>
             ))}
           </ul>
 
           {/* Pricing */}
-          <div className="mb-5 rounded-2xl border border-[#2f3340] bg-[#22252e] px-4 py-4">
+          <div className="mb-5 rounded-2xl border border-[var(--color-border)] bg-[var(--color-surface-2)] px-4 py-4">
             <div className="flex items-end gap-1.5">
-              <span className="text-3xl font-bold text-[#edeef2]">R$29</span>
-              <span className="mb-1 text-sm text-[#9a9eab]">/mês</span>
+              <span className="text-3xl font-bold text-[var(--color-text)]">R$29</span>
+              <span className="mb-1 text-sm text-[var(--color-muted)]">/mês</span>
             </div>
-            <p className="mt-0.5 text-xs text-[#9a9eab]">Cancele quando quiser. Sem fidelidade.</p>
+            <p className="mt-0.5 text-xs text-[var(--color-muted)]">Cancele quando quiser. Sem fidelidade.</p>
           </div>
 
           <button
             onClick={onSubscribe}
-            className="w-full rounded-full bg-[#6fb7b0] py-4 text-sm font-semibold text-[#1c1e26] transition-opacity active:opacity-80"
+            className="w-full rounded-full bg-[var(--color-accent)] py-4 text-sm font-semibold text-[var(--color-accent-fg)] transition-opacity active:opacity-80"
           >
             Assinar Premium
           </button>
 
-          <p className="mt-3 text-center text-[11px] text-[#6b7080]">
+          <p className="mt-3 text-center text-[11px] text-[var(--color-muted-2)]">
             7 dias grátis para experimentar
           </p>
         </div>

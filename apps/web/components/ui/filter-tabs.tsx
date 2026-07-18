@@ -60,13 +60,13 @@ export function FilterTabs({ tabs, active, onChange }: FilterTabsProps) {
   return (
     <div
       ref={containerRef}
-      className="relative flex items-center gap-1 rounded-full bg-[#252830] p-1 shadow-card"
+      className="relative flex items-center gap-1 rounded-full bg-[var(--color-surface)] p-1 shadow-card"
       role="tablist"
     >
       {/* Sliding pill — absolutely positioned, driven by GSAP */}
       <span
         ref={pillRef}
-        className="pointer-events-none absolute top-1 bottom-1 rounded-full bg-[#6fb7b0] shadow-sm"
+        className="pointer-events-none absolute top-1 bottom-1 rounded-full bg-[var(--color-accent)] shadow-sm"
         aria-hidden
       />
 
@@ -79,7 +79,7 @@ export function FilterTabs({ tabs, active, onChange }: FilterTabsProps) {
           onClick={() => onChange(t.key)}
           className={cn(
             "relative z-10 flex flex-1 items-center justify-center gap-1.5 rounded-full px-3 py-2 text-[13px] font-medium leading-none transition-colors duration-200",
-            active === t.key ? "text-[#1c1e26]" : "text-[#6b7080] hover:text-[#9a9eab]"
+            active === t.key ? "text-[var(--color-accent-fg)]" : "text-[var(--color-muted-2)] hover:text-[var(--color-muted)]"
           )}
         >
           {t.icon && <span aria-hidden>{t.icon}</span>}

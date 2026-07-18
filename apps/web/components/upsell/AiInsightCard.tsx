@@ -59,7 +59,7 @@ export function AiInsightCard({ title, preview, isLocked, onUnlock }: AiInsightC
       ref={cardRef}
       className={cn(
         "relative overflow-hidden rounded-2xl shadow-card",
-        isLocked ? "bg-[#6fb7b0]" : "bg-[#252830]"
+        isLocked ? "bg-[var(--color-accent)]" : "bg-[var(--color-surface)]"
       )}
     >
       {/* Glow overlay for locked state */}
@@ -77,16 +77,16 @@ export function AiInsightCard({ title, preview, isLocked, onUnlock }: AiInsightC
       <div className="px-4 py-4">
         {/* Header row */}
         <div className="mb-3 flex items-center gap-2">
-          <span className={cn("flex h-7 w-7 items-center justify-center rounded-lg", isLocked ? "bg-[#252830]/10" : "bg-[#1c1e26]")}>
-            <Sparkles size={14} className={isLocked ? "text-[#1c1e26]" : "text-[#edeef2]"} aria-hidden />
+          <span className={cn("flex h-7 w-7 items-center justify-center rounded-lg", isLocked ? "bg-[var(--color-surface)]/10" : "bg-[var(--color-bg)]")}>
+            <Sparkles size={14} className={isLocked ? "text-[var(--color-accent-fg)]" : "text-[var(--color-text)]"} aria-hidden />
           </span>
-          <span className={cn("text-[11px] font-semibold uppercase tracking-wider", isLocked ? "text-[#1c1e26]/70" : "text-[#6b7080]")}>
+          <span className={cn("text-[11px] font-semibold uppercase tracking-wider", isLocked ? "text-[var(--color-accent-fg)] opacity-70" : "text-[var(--color-muted-2)]")}>
             Alerta da IA
           </span>
         </div>
 
         {/* Title */}
-        <p className={cn("text-sm font-semibold leading-snug mb-2", isLocked ? "text-[#1c1e26]" : "text-[#edeef2]")}>
+        <p className={cn("text-sm font-semibold leading-snug mb-2", isLocked ? "text-[var(--color-accent-fg)]" : "text-[var(--color-text)]")}>
           {title}
         </p>
 
@@ -94,34 +94,34 @@ export function AiInsightCard({ title, preview, isLocked, onUnlock }: AiInsightC
         {isLocked ? (
           <>
             {/* Blurred preview text */}
-            <p className="mb-4 text-xs leading-relaxed text-[#1c1e26]/60 select-none" aria-hidden>
+            <p className="mb-4 text-xs leading-relaxed text-[var(--color-accent-fg)]/60 select-none" aria-hidden>
               {preview}
             </p>
             {/* Blur mask over the text */}
             <div className="pointer-events-none absolute left-4 right-4 h-8 -mt-10"
-              style={{ background: "linear-gradient(to bottom, transparent, #6fb7b0)" }}
+              style={{ background: "linear-gradient(to bottom, transparent, var(--color-accent))" }}
               aria-hidden
             />
 
             <button
               onClick={handleUnlock}
-              className="flex w-full items-center justify-between rounded-xl bg-[#252830] px-4 py-3 transition-opacity active:opacity-80"
+              className="flex w-full items-center justify-between rounded-xl bg-[var(--color-surface)] px-4 py-3 transition-opacity active:opacity-80"
             >
               <div className="flex items-center gap-2">
                 <div ref={lockRef}>
-                  <Lock size={15} className="text-[#edeef2]" aria-hidden />
+                  <Lock size={15} className="text-[var(--color-text)]" aria-hidden />
                 </div>
-                <span className="text-sm font-semibold text-[#edeef2]">Ver análise completa</span>
+                <span className="text-sm font-semibold text-[var(--color-text)]">Ver análise completa</span>
               </div>
-              <ChevronRight size={15} className="text-[#9a9eab]" aria-hidden />
+              <ChevronRight size={15} className="text-[var(--color-muted)]" aria-hidden />
             </button>
 
-            <p className="mt-2 text-center text-[10px] text-[#edeef2]/40">
+            <p className="mt-2 text-center text-[10px] text-[var(--color-text)] opacity-40">
               Disponível no plano Premium
             </p>
           </>
         ) : (
-          <p className="text-xs leading-relaxed text-[#9a9eab]">{preview}</p>
+          <p className="text-xs leading-relaxed text-[var(--color-muted)]">{preview}</p>
         )}
       </div>
     </div>
