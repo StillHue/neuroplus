@@ -103,7 +103,5 @@ Para se aprofundar nas diretrizes de produto, arquitetura e relatórios de confo
 *   **👥 [Cuidadores & Profissionais: Personas do Ecossistema](./USER_PERSONAS.md):** Perfis de empatia e contexto social de quem utiliza a aplicação.
 *   **🗺️ [Rota de Cuidado: Jornada do Usuário e Fases de Suporte](./USER_JOURNEY.md):** O fluxo detalhado do usuário nas fases de suspeita, fila de espera e pós-diagnóstico.
 *   **📐 [Arquitetura & Infraestrutura do Sistema](./ARCHITECTURE.md):** Diagramas técnicos de dados, árvore de componentes React 19 e fluxos de consentimento.
-*   **⚙️ [Diretrizes & Padrões do Workspace](./WORKSPACE.md):** Estrutura do monorepo, regras TypeScript e guias de style-guide.
-*   **📜 [Diário de Bordo & Progresso de Engenharia](./LOGS.md):** Linha do tempo de alterações e progresso cronológico das sessões.
 *   **🔍 [Qualidade de Código & Code Review](./review_report.md):** Inspeção de usabilidade, GSAP hooks e melhores práticas do Next.js.
 *   **🛡️ [Segurança & Auditoria de Riscos](./security_audit.md):** Avaliação de vulnerabilidades mitigadas e conformidade técnica com a LGPD.
