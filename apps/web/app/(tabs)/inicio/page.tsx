@@ -81,11 +81,15 @@ export default function Inicio() {
   useGSAP(() => {
     const rows = listRef.current?.querySelectorAll<HTMLElement>(".entry-row")
     if (!rows?.length) return
+
+    const scrollerEl = document.getElementById("main-content")
+    if (!scrollerEl) return
+
     rows.forEach((row) => {
       gsap.from(row, {
         opacity: 0, x: -8, duration: 0.3, ease: "power2.out",
         scrollTrigger: {
-          trigger: row, scroller: "#main-content",
+          trigger: row, scroller: scrollerEl,
           start: "top 95%", toggleActions: "play none none none",
         },
       })

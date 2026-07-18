@@ -86,10 +86,14 @@ export default function Hub() {
   useGSAP(() => {
     const cards = cardsRef.current?.querySelectorAll<HTMLDivElement>(".stakeholder-card")
     if (!cards?.length) return
+
+    const scrollerEl = document.getElementById("main-content")
+    if (!scrollerEl) return
+
     cards.forEach((card) => {
       ScrollTrigger.create({
         trigger: card,
-        scroller: "#main-content",
+        scroller: scrollerEl,
         start: "top 92%",
         onEnter: () =>
           gsap.from(card, { y: 16, opacity: 0, duration: 0.3, ease: "power2.out" }),

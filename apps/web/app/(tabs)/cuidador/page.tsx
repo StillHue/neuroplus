@@ -93,9 +93,13 @@ export default function Cuidador() {
   useGSAP(() => {
     const items = notesRef.current?.querySelectorAll<HTMLElement>(".note-item")
     if (!items?.length) return
+
+    const scrollerEl = document.getElementById("main-content")
+    if (!scrollerEl) return
+
     items.forEach((item, i) => {
       ScrollTrigger.create({
-        trigger: item, scroller: "#main-content", start: "top 94%",
+        trigger: item, scroller: scrollerEl, start: "top 94%",
         onEnter: () => gsap.from(item, { y: 12, opacity: 0, duration: 0.28, delay: i * 0.06, ease: "power2.out" }),
         once: true,
       })
