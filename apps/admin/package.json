@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3002",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "dev": "echo 'admin app not yet implemented'",
+    "build": "echo 'admin app not yet implemented'",
+    "start": "echo 'admin app not yet implemented'",
+    "lint": "echo 'admin app not yet implemented'",
+    "typecheck": "echo 'admin app not yet implemented'"
   },
   "dependencies": {
     "@neuroplus/auth": "*",
