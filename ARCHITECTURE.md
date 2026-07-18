@@ -23,46 +23,56 @@ Mapeia a estrutura de páginas e componentes chave da interface do aplicativo pr
 
 ```mermaid
 flowchart TD
-  RootLayout["app/layout.tsx (Global Providers)"] --> AuthLayout["app/(auth)/layout.tsx"]
-  RootLayout --> TabsLayout["app/(tabs)/layout.tsx"]
+  RootLayout["app/layout.tsx (Global Providers)"] 
   
-  AuthLayout --> LoginPage["app/(auth)/login/page.tsx"]
-  
-  TabsLayout --> BottomNav["components/BottomNav.tsx (Pílula GSAP)"]
-  TabsLayout --> InicioPage["app/(tabs)/inicio/page.tsx"]
-  TabsLayout --> JornadaPage["app/(tabs)/jornada/page.tsx"]
-  TabsLayout --> CuidadorPage["app/(tabs)/cuidador/page.tsx"]
-  
-  InicioPage --> DateStrip["components/ui/date-strip.tsx"]
-  InicioPage --> FilterTabs["components/ui/filter-tabs.tsx"]
-  InicioPage --> CollapsibleSection["components/ui/collapsible-section.tsx"]
-  InicioPage --> RoutineEntrySheet["components/routine/RoutineEntrySheet.tsx"]
-  
-  JornadaPage --> AiInsightCard["components/upsell/AiInsightCard.tsx"]
-  JornadaPage --> PaywallSheet["components/upsell/PaywallSheet.tsx"]
-  
-  CuidadorPage --> AudioRecorder["components/routine/AudioRecorder.tsx (Premium)"]
-  CuidadorPage --> InviteSheet["components/cuidador/InviteSheet.tsx"]
-  CuidadorPage --> PaywallSheet
-  
-  RootLayout --> TriageLayout["app/jornada/layout.tsx"]
-  TriageLayout --> TriagePage["app/jornada/triagem/page.tsx (Chat Assistente)"]
+  subgraph Auth ["Autenticação"]
+    AuthLayout["app/(auth)/layout.tsx"] --> LoginPage["app/(auth)/login/page.tsx"]
+  end
+
+  subgraph MainTabs ["Abas Principais (Tabs)"]
+    TabsLayout["app/(tabs)/layout.tsx"] --> BottomNav["components/BottomNav.tsx (Pílula GSAP)"]
+    TabsLayout --> InicioPage["app/(tabs)/inicio/page.tsx"]
+    TabsLayout --> JornadaPage["app/(tabs)/jornada/page.tsx"]
+    TabsLayout --> CuidadorPage["app/(tabs)/cuidador/page.tsx"]
+  end
+
+  subgraph UIComponents ["Componentes de UI"]
+    InicioPage --> DateStrip["components/ui/date-strip.tsx"]
+    InicioPage --> FilterTabs["components/ui/filter-tabs.tsx"]
+    InicioPage --> CollapsibleSection["components/ui/collapsible-section.tsx"]
+    InicioPage --> RoutineEntrySheet["components/routine/RoutineEntrySheet.tsx"]
+    
+    JornadaPage --> AiInsightCard["components/upsell/AiInsightCard.tsx"]
+    JornadaPage --> PaywallSheet["components/upsell/PaywallSheet.tsx"]
+    
+    CuidadorPage --> AudioRecorder["components/routine/AudioRecorder.tsx (Premium)"]
+    CuidadorPage --> InviteSheet["components/cuidador/InviteSheet.tsx"]
+    CuidadorPage --> PaywallSheet
+  end
+
+  subgraph Triage ["Triagem & Rota de Saúde"]
+    RootLayout --> TriageLayout["app/jornada/layout.tsx"]
+    TriageLayout --> TriagePage["app/jornada/triagem/page.tsx (Chat Assistente)"]
+  end
+
+  RootLayout --> AuthLayout
+  RootLayout --> TabsLayout
 ```
 
 ---
 
 ### 2. Data Flow (Fluxo de Dados da Triagem AI)
 
-Mostra como as mensagens de chat trafegam do cliente para as APIs de terceiros mantendo a segurança da chave de API e transmitindo as respostas em formato Event Stream (SSE).
+Mostra como as mensagens de chat trafegam do cliente para as APIs de terceiros mantendo a segurança da infraestrutura de chaves de API e transmitindo as respostas em formato Event Stream (SSE).
 
 ```mermaid
 sequenceDiagram
   participant Client as Cliente (Chat UI)
-  participant API as Next.js API (/api/triage)
-  participant LLM as API do LLM (Groq Cloud)
+  participant API as API Server (/api/triage)
+  participant LLM as API do LLM (Serviço de Nuvem)
 
   Client->>API: Envia histórico de mensagens (POST)
-  Note over API: Injeta o SYSTEM_PROMPT<br/>e recupera a chave GROQ_API_KEY
+  Note over API: Injeta o Prompt do Sistema e<br/>valida tokens de autorização seguros
   API->>LLM: Requisição de Chat Completion (Stream: True)
   LLM-->>API: Retorna chunk de dados (SSE Stream)
   API-->>Client: Repassa Stream diretamente (SSE Stream)
@@ -73,7 +83,10 @@ sequenceDiagram
 
 ### 3. DB Schema (Modelo Físico do Banco)
 
-Mapeamento Entidade-Relacionamento do banco de dados configurado no arquivo `schema.prisma`.
+Para facilitar a leitura e evitar diagramas excessivamente complexos, o esquema de dados do banco de dados (`schema.prisma`) foi dividido em três modelos temáticos:
+
+#### A. Núcleo de Usuários, Cuidadores & Família
+Mapeia o cadastro de contas e agrupamento familiar.
 
 ```mermaid
 erDiagram
@@ -103,6 +116,20 @@ erDiagram
     string familyId FK
     CaregiverRole role
     datetime joinedAt
+  }
+
+  USER ||--o{ FAMILY_MEMBER : "perfil cadastrado em"
+  FAMILY ||--o{ FAMILY_MEMBER : "contém cuidadores"
+```
+
+#### B. Rotina & Evolução de Cuidado
+Mapeia os registros cotidianos, anotações e sentimentos dos cuidadores.
+
+```mermaid
+erDiagram
+  FAMILY {
+    string id PK
+    string childName
   }
 
   ROUTINE_ENTRY {
@@ -139,6 +166,19 @@ erDiagram
     datetime createdAt
   }
 
+  FAMILY ||--o{ ROUTINE_ENTRY : "possui registros"
+  ROUTINE_ENTRY ||--o{ ROUTINE_ENTRY_TAG : "rotulado por"
+```
+
+#### C. Segurança, Consentimento LGPD & Insights de IA
+Mapeia as auditorias de acesso e gerações automáticas de rota médica.
+
+```mermaid
+erDiagram
+  FAMILY {
+    string id PK
+  }
+
   CONSENT {
     string id PK
     string familyId FK
@@ -155,8 +195,8 @@ erDiagram
     string consentId FK
     ConsentStatus action
     string actorId
-    string ip
-    string userAgent
+    string ipAddress
+    string deviceAgent
     datetime createdAt
   }
 
@@ -178,12 +218,6 @@ erDiagram
     datetime createdAt
   }
 
-  USER ||--o{ FAMILY_MEMBER : "perfil cadastrado em"
-  FAMILY ||--o{ FAMILY_MEMBER : "contém cuidadores"
-  FAMILY ||--o{ ROUTINE_ENTRY : "possui registros de rotina"
-  ROUTINE_ENTRY ||--o{ ROUTINE_ENTRY_TAG : "rotulado por"
-  USER ||--o{ NOTE : "escreve"
-  USER ||--o{ WELLBEING_CHECKIN : "registra bem-estar"
   FAMILY ||--o{ CONSENT : "emite autorização"
   CONSENT ||--o{ CONSENT_LOG : "audita alterações"
   FAMILY ||--o{ TRIAGE_RESULT : "gera rota de"
@@ -194,14 +228,14 @@ erDiagram
 
 ### 4. Auth & Consent Flow (Autenticação e LGPD)
 
-Fluxo de validação de autenticação via NextAuth e controle de acesso a dados médicos auditado pela tabela de consentimento.
+Fluxo de validação de autenticação e controle de acesso a dados médicos auditado pela tabela de consentimento.
 
 ```mermaid
 sequenceDiagram
   actor Cuidador
   actor Profissional
-  participant App as Neuro + Web (App)
-  participant DB as Banco de Dados (Prisma)
+  participant App as App Web (Client)
+  participant DB as Banco de Dados (ORM)
 
   Cuidador->>App: Concede Consentimento para Profissional (Email, Papel, Escopo)
   App->>DB: Cria registro na tabela Consent e insere log imutável no ConsentLog
@@ -226,32 +260,40 @@ Visão completa do caminho trilhado pela família dentro da plataforma Neuro +.
 ```mermaid
 flowchart TD
   Start([Entrada no App]) --> Login{Autenticação}
-  Login -->|Primeiro Acesso| Triage[Triagem Inicial Inteligente]
-  Login -->|Retorno| Home[Dashboard Principal / Home]
   
-  Triage -->|Coleta de Dados de Sintomas| RouteGen[Geração de Rota / Jornada Visual]
-  RouteGen --> Home
+  subgraph Acesso ["Fase de Acesso e Entrada"]
+    Login -->|Primeiro Acesso| Triage[Triagem Inicial Inteligente]
+    Login -->|Retorno| Home[Dashboard Principal / Home]
+    Triage -->|Coleta de Dados de Sintomas| RouteGen[Geração de Rota / Jornada Visual]
+    RouteGen --> Home
+  end
+
+  subgraph Registros ["Fase de Acompanhamento Quotidiano"]
+    Home -->|Anotações Rápidas| Notes[Bloco de Notas / Gravação de Áudio]
+    Home -->|Diário de Rotina| Routine[Registrar Sono, Alimentação, Crises]
+    Home -->|Como está hoje?| Wellbeing[Check-in de Bem-Estar do Cuidador]
+  end
   
-  Home -->|Anotações Rápidas| Notes[Bloco de Notas / Gravação de Áudio]
-  Home -->|Diário de Rotina| Routine[Registrar Sono, Alimentação, Crises]
-  Home -->|Como está hoje?| Wellbeing[Check-in de Bem-Estar do Cuidador]
+  subgraph Analytics ["Fase de Inteligência e Evolução"]
+    Notes --> InsightEngine[Detecção Passiva de Padrões]
+    Routine --> InsightEngine
+    
+    InsightEngine -->|Conta Gratuita| LockInsight[Insight Bloqueado + Upsell Paywall]
+    InsightEngine -->|Assinante Premium| ShowInsight[Exibição de Gráficos e Correlações de IA]
+  end
   
-  Notes --> InsightEngine[Detecção Passiva de Padrões]
-  Routine --> InsightEngine
-  
-  InsightEngine -->|Conta Gratuita| LockInsight[Insight Bloqueado + Upsell Paywall]
-  InsightEngine -->|Assinante Premium| ShowInsight[Exibição de Gráficos e Correlações de IA]
-  
-  Home -->|Exportar Relatório| PrintDoc[Relatório Clínico em HTML para Impressão]
-  Home -->|Compartilhar com Rede| ConsentHub[Hub de Consentimento LGPD para Escola/Terapeutas]
-  
-  ConsentHub --> RevokeAccess[Revogação Imediata com Logs de Auditoria]
-  PrintDoc --> DocEntregue([Médico recebe histórico estruturado no SUS])
+  subgraph Saida ["Fase de Compartilhamento Clínico"]
+    Home -->|Exportar Relatório| PrintDoc[Relatório Clínico em HTML para Impressão]
+    Home -->|Compartilhar com Rede| ConsentHub[Hub de Consentimento LGPD para Escola/Terapeutas]
+    
+    ConsentHub --> RevokeAccess[Revogação Imediata com Logs de Auditoria]
+    PrintDoc --> DocEntregue([Médico recebe histórico estruturado no SUS])
+  end
 ```
 
 ---
 
 ## 🔒 Proteção de Dados e LGPD
 
-1.  **Trilha de Auditoria Imutável:** Todas as alterações de status de compartilhamento (concessões e revogações) disparam gatilhos no banco de dados que salvam registros na tabela `ConsentLog` contendo IP, User Agent e ID do ator responsável. Esta tabela não possui métodos de alteração (`UPDATE`) ou exclusão (`DELETE`) expostos na API.
+1.  **Trilha de Auditoria Imutável:** Todas as alterações de status de compartilhamento (concessões e revogações) disparam gatilhos no banco de dados que salvam registros na tabela `ConsentLog` contendo identificadores e metadados de acesso (sem chaves privadas). Esta tabela não possui métodos de alteração (`UPDATE`) ou exclusão (`DELETE`) expostos na API.
 2.  **Consentimento Granular:** O escopo do dado (`dataScope`) define limites estritos de permissão de leitura. Por exemplo, a professora da escola não tem permissão para visualizar laudos médicos se o consentimento concedido abranger apenas evolução escolar.
