@@ -65,3 +65,7 @@ service-account*.json
 
 # ── Package lock (root only, keep workspace ones) ─────────────
 package-lock.json
+
+# ── Local Workspace / Logs ────────────────────────────────────
+WORKSPACE.md
+LOGS.md
