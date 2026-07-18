@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils"
 import { CollapsibleSection } from "@/components/ui/collapsible-section"
 import { PaywallSheet } from "@/components/upsell/PaywallSheet"
 import { AudioRecorder } from "@/components/routine/AudioRecorder"
+import { ThemeToggle } from "@/components/ThemeToggle"
 
 const USER_PLAN = "FREE" as "FREE" | "PREMIUM"
 
@@ -84,6 +85,7 @@ export default function Cuidador() {
   const notesRef  = useRef<HTMLUListElement>(null)
 
   useGSAP(() => {
+    if (!headerRef.current) return
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } })
     tl.from(headerRef.current, { y: -20, opacity: 0, duration: 0.4 })
       .from(".care-card",      { y: 20,  opacity: 0, duration: 0.35, stagger: 0.1 }, "-=0.22")
@@ -130,17 +132,22 @@ export default function Cuidador() {
   const selectedOption = wellbeing ? WELLBEING_OPTIONS.find((o) => o.level === wellbeing) : null
 
   return (
-    <div ref={pageRef} className="flex min-h-full flex-col bg-[#1c1e26] pb-nav">
+    <div ref={pageRef} className="flex min-h-full flex-col bg-[var(--color-bg)] pb-nav">
       <div ref={headerRef} className="px-5 pt-8 pb-4">
-        <h1 className="text-2xl font-semibold text-[#edeef2]">Seu espaço</h1>
-        <p className="mt-0.5 font-serif italic text-[#9a9eab] text-sm">
-          Aqui o cuidado é sobre você
-        </p>
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <h1 className="text-2xl font-semibold text-[var(--color-text)]">Seu espaço</h1>
+            <p className="mt-0.5 font-serif italic text-[var(--color-muted)] text-sm">
+              Aqui o cuidado é sobre você
+            </p>
+          </div>
+          <ThemeToggle />
+        </div>
       </div>
 
       <div ref={cardsRef} className="flex flex-col gap-3 px-5">
         {/* Check-in */}
-        <div className="care-card rounded-2xl bg-[#252830] shadow-card overflow-hidden">
+        <div className="care-card rounded-2xl bg-[var(--color-surface)] shadow-card overflow-hidden">
           <div className="px-4 py-3">
             <CollapsibleSection title="Como você está hoje?">
               {!checkinDone ? (
@@ -152,22 +159,22 @@ export default function Cuidador() {
                       aria-label={label}
                       className={cn(
                         "flex flex-col items-center gap-1.5 rounded-xl px-2 py-2.5 transition-all active:scale-95",
-                        wellbeing === level ? "bg-[#6fb7b0] text-[#1c1e26] scale-105" : "text-[#6b7080] hover:bg-[#1c1e26]"
+                        wellbeing === level ? "bg-[var(--color-accent)] text-[var(--color-accent-fg)] scale-105" : "text-[var(--color-muted-2)] hover:bg-[var(--color-bg)]"
                       )}
                     >
-                      <Icon size={26} strokeWidth={1.5} aria-hidden className={wellbeing === level ? "text-[#1c1e26]" : ""} />
+                      <Icon size={26} strokeWidth={1.5} aria-hidden className={wellbeing === level ? "text-[var(--color-accent-fg)]" : ""} />
                       <span className="text-[10px] leading-none">{label}</span>
                     </button>
                   ))}
                 </div>
               ) : (
                 <div className="flex items-center gap-3 py-2">
-                  {selectedOption && <selectedOption.Icon size={28} strokeWidth={1.5} className="text-[#edeef2]" aria-hidden />}
+                  {selectedOption && <selectedOption.Icon size={28} strokeWidth={1.5} className="text-[var(--color-text)]" aria-hidden />}
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-[#edeef2]">Registrado</p>
-                    <p className="text-xs text-[#9a9eab]">Obrigado por se cuidar.</p>
+                    <p className="text-sm font-medium text-[var(--color-text)]">Registrado</p>
+                    <p className="text-xs text-[var(--color-muted)]">Obrigado por se cuidar.</p>
                   </div>
-                  <CheckCircle2 size={18} className="text-[#edeef2]" aria-hidden />
+                  <CheckCircle2 size={18} className="text-[var(--color-text)]" aria-hidden />
                 </div>
               )}
             </CollapsibleSection>
@@ -175,28 +182,28 @@ export default function Cuidador() {
         </div>
 
         {/* Multi-cuidador */}
-        <div className="care-card rounded-2xl bg-[#252830] shadow-card overflow-hidden">
+        <div className="care-card rounded-2xl bg-[var(--color-surface)] shadow-card overflow-hidden">
           <div className="px-4 py-3">
             <CollapsibleSection title="Cuidadores">
               <div className="pb-1">
                 <ul className="flex flex-col gap-0.5 mb-3">
                   {caregivers.map((c) => (
                     <li key={c.id} className="flex items-center gap-3 py-2">
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#1c1e26] text-[#edeef2]">
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--color-bg)] text-[var(--color-text)]">
                         <Users size={14} aria-hidden />
                       </span>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium text-[#edeef2] truncate">{c.name}</p>
-                        <p className="text-xs text-[#9a9eab]">{ROLE_LABELS[c.role]}</p>
+                        <p className="text-sm font-medium text-[var(--color-text)] truncate">{c.name}</p>
+                        <p className="text-xs text-[var(--color-muted)]">{ROLE_LABELS[c.role]}</p>
                       </div>
                       {c.isOwner ? (
-                        <span className="flex items-center gap-1 rounded-full bg-[#1c1e26] px-2 py-1 text-[10px] font-semibold text-[#9a9eab]">
+                        <span className="flex items-center gap-1 rounded-full bg-[var(--color-bg)] px-2 py-1 text-[10px] font-semibold text-[var(--color-muted)]">
                           <Crown size={10} aria-hidden /> Você
                         </span>
                       ) : (
                         <button
                           onClick={() => removeCaregiver(c.id)}
-                          className="flex h-7 w-7 items-center justify-center rounded-full text-[#6b7080] transition-colors hover:bg-[#1c1e26] hover:text-[#edeef2]"
+                          className="flex h-7 w-7 items-center justify-center rounded-full text-[var(--color-muted-2)] transition-colors hover:bg-[var(--color-bg)] hover:text-[var(--color-text)]"
                           aria-label={`Remover ${c.name}`}
                         >
                           <X size={14} aria-hidden />
@@ -208,12 +215,12 @@ export default function Cuidador() {
 
                 <button
                   onClick={handleInvite}
-                  className="flex w-full items-center gap-2 rounded-xl border border-dashed border-[#3a3f4d] px-4 py-3 text-sm text-[#9a9eab] transition-colors active:bg-[#1c1e26]"
+                  className="flex w-full items-center gap-2 rounded-xl border border-dashed border-[var(--color-border-strong)] px-4 py-3 text-sm text-[var(--color-muted)] transition-colors active:bg-[var(--color-bg)]"
                 >
                   <UserPlus size={15} aria-hidden />
                   Convidar cuidador
                   {USER_PLAN === "FREE" && (
-                    <span className="ml-auto flex items-center gap-1 rounded-full bg-[#1c1e26] px-2 py-0.5 text-[10px] font-semibold text-[#9a9eab]">
+                    <span className="ml-auto flex items-center gap-1 rounded-full bg-[var(--color-bg)] px-2 py-0.5 text-[10px] font-semibold text-[var(--color-muted)]">
                       <Crown size={9} aria-hidden /> Premium
                     </span>
                   )}
@@ -224,26 +231,26 @@ export default function Cuidador() {
         </div>
 
         {/* Notes input */}
-        <div className="care-card rounded-2xl bg-[#252830] shadow-card">
+        <div className="care-card rounded-2xl bg-[var(--color-surface)] shadow-card">
           <div className="px-4 py-3">
             <div className="flex items-center gap-2 mb-3">
-              <PenLine size={14} className="text-[#6b7080]" aria-hidden />
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-[#6b7080]">Bloco de notas</span>
+              <PenLine size={14} className="text-[var(--color-muted-2)]" aria-hidden />
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-muted-2)]">Bloco de notas</span>
             </div>
             <textarea
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
               placeholder="Escreva o que está na sua cabeça — observações, percepções, dúvidas…"
               rows={3}
-              className="w-full resize-none bg-transparent text-sm leading-relaxed text-[#edeef2] outline-none placeholder:text-[#4a4d58]"
+              className="w-full resize-none bg-transparent text-sm leading-relaxed text-[var(--color-text)] outline-none placeholder:text-[var(--color-muted-3)]"
               aria-label="Nova nota"
             />
             {draft.trim() && (
-              <div className="mt-2 flex justify-end border-t border-[#2f3340] pt-2">
+              <div className="mt-2 flex justify-end border-t border-[var(--color-border)] pt-2">
                 <button
                   onClick={submitNote}
                   disabled={analyzing}
-                  className="flex items-center gap-1.5 rounded-full bg-[#6fb7b0] px-4 py-2 text-xs font-semibold text-[#1c1e26] transition-opacity active:opacity-80 disabled:opacity-40"
+                  className="flex items-center gap-1.5 rounded-full bg-[var(--color-accent)] px-4 py-2 text-xs font-semibold text-[var(--color-accent-fg)] transition-opacity active:opacity-80 disabled:opacity-40"
                 >
                   <Send size={12} aria-hidden />
                   Salvar
@@ -270,7 +277,7 @@ export default function Cuidador() {
 
         {/* Saved notes */}
         {notes.length > 0 && (
-          <div className="care-card rounded-2xl bg-[#252830] shadow-card overflow-hidden">
+          <div className="care-card rounded-2xl bg-[var(--color-surface)] shadow-card overflow-hidden">
             <div className="px-4 py-3">
               <CollapsibleSection title="Anotações">
                 <ul ref={notesRef} className="flex flex-col">
@@ -301,23 +308,23 @@ function NoteCard({ note, analyzing }: { note: Note; analyzing: boolean }) {
   }, { scope: ref })
 
   return (
-    <div ref={ref} className="note-item border-b border-[#2f3340] last:border-0 py-3">
-      <p className="text-sm leading-relaxed text-[#edeef2]">{note.text}</p>
-      <p className="mt-1 text-[11px] text-[#6b7080]">{note.createdAt}</p>
+    <div ref={ref} className="note-item border-b border-[var(--color-border)] last:border-0 py-3">
+      <p className="text-sm leading-relaxed text-[var(--color-text)]">{note.text}</p>
+      <p className="mt-1 text-[11px] text-[var(--color-muted-2)]">{note.createdAt}</p>
       {analyzing && (
-        <div className="mt-2 flex items-center gap-2 rounded-xl bg-[#1c1e26] px-3 py-2">
-          <span className="text-xs text-[#9a9eab]">Analisando</span>
+        <div className="mt-2 flex items-center gap-2 rounded-xl bg-[var(--color-bg)] px-3 py-2">
+          <span className="text-xs text-[var(--color-muted)]">Analisando</span>
           <span className="flex gap-1">
             {[0, 1, 2].map((i) => (
-              <span key={i} className="h-1.5 w-1.5 animate-pulse-dot rounded-full bg-[#6b7080]" style={{ animationDelay: `${i * 0.2}s` }} />
+              <span key={i} className="h-1.5 w-1.5 animate-pulse-dot rounded-full bg-[var(--color-muted-2)]" style={{ animationDelay: `${i * 0.2}s` }} />
             ))}
           </span>
         </div>
       )}
       {note.insight && (
-        <div className="mt-2 flex items-start gap-2 rounded-xl bg-[#1c1e26] px-3 py-2.5">
-          <Lightbulb size={13} className="mt-0.5 shrink-0 text-[#9a9eab]" aria-hidden />
-          <p className="text-xs leading-relaxed text-[#9a9eab]">{note.insight}</p>
+        <div className="mt-2 flex items-start gap-2 rounded-xl bg-[var(--color-bg)] px-3 py-2.5">
+          <Lightbulb size={13} className="mt-0.5 shrink-0 text-[var(--color-muted)]" aria-hidden />
+          <p className="text-xs leading-relaxed text-[var(--color-muted)]">{note.insight}</p>
         </div>
       )}
     </div>
@@ -368,39 +375,39 @@ function InviteSheet({
       <div ref={backdropRef} className="fixed inset-0 z-40 bg-black/30" onClick={handleClose} aria-hidden />
       <div
         ref={sheetRef}
-        className="fixed bottom-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 rounded-t-[28px] bg-[#252830] shadow-sheet"
+        className="fixed bottom-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 rounded-t-[28px] bg-[var(--color-surface)] shadow-sheet"
         role="dialog" aria-modal aria-label="Convidar cuidador"
       >
         <div className="flex justify-center pt-3 pb-1">
-          <span className="h-1 w-10 rounded-full bg-[#2f3340]" />
+          <span className="h-1 w-10 rounded-full bg-[var(--color-border)]" />
         </div>
         <div className="flex items-center justify-between px-5 pb-4 pt-2">
-          <h2 className="text-lg font-semibold text-[#edeef2]">Convidar cuidador</h2>
-          <button onClick={handleClose} className="flex h-9 w-9 items-center justify-center rounded-full bg-[#1c1e26] text-[#9a9eab]" aria-label="Fechar">
+          <h2 className="text-lg font-semibold text-[var(--color-text)]">Convidar cuidador</h2>
+          <button onClick={handleClose} className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-bg)] text-[var(--color-muted)]" aria-label="Fechar">
             <X size={18} aria-hidden />
           </button>
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4 px-5 pb-8">
           <label className="flex flex-col gap-1.5">
-            <span className="text-xs font-medium text-[#9a9eab]">Nome</span>
+            <span className="text-xs font-medium text-[var(--color-muted)]">Nome</span>
             <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="Carlos Silva" required
-              className="rounded-xl border border-[#2f3340] bg-[#22252e] px-4 py-3 text-sm text-[#edeef2] outline-none focus:border-[#6fb7b0] focus:bg-[#252830] transition-colors placeholder:text-[#4a4d58]" />
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] px-4 py-3 text-sm text-[var(--color-text)] outline-none focus:border-[var(--color-accent)] focus:bg-[var(--color-surface)] transition-colors placeholder:text-[var(--color-muted-3)]" />
           </label>
 
           <label className="flex flex-col gap-1.5">
-            <span className="text-xs font-medium text-[#9a9eab]">E-mail</span>
+            <span className="text-xs font-medium text-[var(--color-muted)]">E-mail</span>
             <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="email@exemplo.com" required
-              className="rounded-xl border border-[#2f3340] bg-[#22252e] px-4 py-3 text-sm text-[#edeef2] outline-none focus:border-[#6fb7b0] focus:bg-[#252830] transition-colors placeholder:text-[#4a4d58]" />
+              className="rounded-xl border border-[var(--color-border)] bg-[var(--color-surface-2)] px-4 py-3 text-sm text-[var(--color-text)] outline-none focus:border-[var(--color-accent)] focus:bg-[var(--color-surface)] transition-colors placeholder:text-[var(--color-muted-3)]" />
           </label>
 
           <div className="flex flex-col gap-1.5">
-            <span className="text-xs font-medium text-[#9a9eab]">Papel</span>
+            <span className="text-xs font-medium text-[var(--color-muted)]">Papel</span>
             <div className="flex flex-wrap gap-2">
               {ROLE_OPTIONS.map((opt) => (
                 <button key={opt.value} type="button" onClick={() => setRole(opt.value)}
                   className={cn("rounded-full px-4 py-2 text-sm font-medium transition-all",
-                    role === opt.value ? "bg-[#6fb7b0] text-[#1c1e26]" : "bg-[#1c1e26] text-[#9a9eab] hover:bg-[#2f3340]"
+                    role === opt.value ? "bg-[var(--color-accent)] text-[var(--color-accent-fg)]" : "bg-[var(--color-bg)] text-[var(--color-muted)] hover:bg-[var(--color-border)]"
                   )}>
                   {opt.label}
                 </button>
@@ -408,7 +415,7 @@ function InviteSheet({
             </div>
           </div>
 
-          <button type="submit" className="mt-1 w-full rounded-full bg-[#6fb7b0] py-4 text-sm font-semibold text-[#1c1e26] transition-opacity active:opacity-80">
+          <button type="submit" className="mt-1 w-full rounded-full bg-[var(--color-accent)] py-4 text-sm font-semibold text-[var(--color-accent-fg)] transition-opacity active:opacity-80">
             Enviar convite
           </button>
         </form>

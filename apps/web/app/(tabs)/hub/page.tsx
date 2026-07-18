@@ -75,6 +75,7 @@ export default function Hub() {
 
   // ── Page-entry stagger ────────────────────────────────────────
   useGSAP(() => {
+    if (!headerRef.current || !tabsRef.current) return
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } })
     tl.from(headerRef.current, { y: -20, opacity: 0, duration: 0.4 })
       .from(tabsRef.current,   { y: 12,  opacity: 0, duration: 0.32 }, "-=0.22")
@@ -123,8 +124,8 @@ export default function Hub() {
     <div ref={pageRef} className="flex flex-col pb-nav">
       {/* Header */}
       <div ref={headerRef} className="px-5 pt-8 pb-4">
-        <h1 className="text-2xl font-semibold text-[#edeef2]">Hub</h1>
-        <p className="mt-0.5 font-serif italic text-[#9a9eab] text-sm">
+        <h1 className="text-2xl font-semibold text-[var(--color-text)]">Hub</h1>
+        <p className="mt-0.5 font-serif italic text-[var(--color-muted)] text-sm">
           Quem pode ver o quê sobre seu filho
         </p>
       </div>
@@ -195,25 +196,25 @@ function StakeholderCard({
   }
 
   return (
-    <div className="stakeholder-card overflow-hidden rounded-2xl bg-[#252830] shadow-card">
+    <div className="stakeholder-card overflow-hidden rounded-2xl bg-[var(--color-surface)] shadow-card">
       <button
-        className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors active:bg-[#1c1e26]"
+        className="flex w-full items-center gap-3 px-4 py-3.5 text-left transition-colors active:bg-[var(--color-bg)]"
         onClick={toggleExpand}
         aria-expanded={expanded}
       >
-        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#1c1e26] text-[#edeef2]">
+        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--color-bg)] text-[var(--color-text)]">
           <IconComponent size={18} strokeWidth={1.75} aria-hidden />
         </span>
         <div className="min-w-0 flex-1">
-          <p className="truncate text-sm font-semibold text-[#edeef2]">{stakeholder.name}</p>
-          <p className="text-xs text-[#9a9eab]">{stakeholder.role}</p>
+          <p className="truncate text-sm font-semibold text-[var(--color-text)]">{stakeholder.name}</p>
+          <p className="text-xs text-[var(--color-muted)]">{stakeholder.role}</p>
         </div>
         <div className="flex items-center gap-2">
-          <span className="text-xs font-medium text-[#9a9eab]">{grantedCount}/{total}</span>
+          <span className="text-xs font-medium text-[var(--color-muted)]">{grantedCount}/{total}</span>
           <ChevronDown
             ref={chevronRef}
             size={15}
-            className="text-[#6b7080]"
+            className="text-[var(--color-muted-2)]"
             aria-hidden
           />
         </div>
@@ -221,18 +222,18 @@ function StakeholderCard({
 
       {/* Always rendered — GSAP drives height */}
       <div ref={detailRef} style={{ height: 0, overflow: "hidden", opacity: 0 }}>
-        <div className="border-t border-[#2f3340] px-4 pb-3 pt-2">
-          <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-[#6b7080]">
+        <div className="border-t border-[var(--color-border)] px-4 pb-3 pt-2">
+          <p className="mb-2 text-[11px] font-semibold uppercase tracking-wider text-[var(--color-muted-2)]">
             {stakeholder.name} pode ver:
           </p>
           <ul className="flex flex-col gap-1">
             {stakeholder.items.map((item) => (
               <li key={item.id} className="flex items-center justify-between gap-3 py-1.5">
-                <span className="text-sm text-[#edeef2]">{item.label}</span>
+                <span className="text-sm text-[var(--color-text)]">{item.label}</span>
                 {item.granted ? (
                   <button
                     onClick={() => onRevoke(item.id)}
-                    className="flex shrink-0 items-center gap-1 rounded-full bg-[#6fb7b0] px-3 py-1.5 text-[11px] font-semibold text-[#1c1e26] transition-opacity active:opacity-75"
+                    className="flex shrink-0 items-center gap-1 rounded-full bg-[var(--color-accent)] px-3 py-1.5 text-[11px] font-semibold text-[var(--color-accent-fg)] transition-opacity active:opacity-75"
                     aria-label={`Parar de compartilhar ${item.label}`}
                   >
                     <Check size={11} aria-hidden />
@@ -241,7 +242,7 @@ function StakeholderCard({
                 ) : (
                   <button
                     onClick={() => onGrant(item.id)}
-                    className="shrink-0 rounded-full border border-[#2f3340] bg-[#252830] px-3 py-1.5 text-[11px] font-semibold text-[#9a9eab] transition-colors active:bg-[#1c1e26]"
+                    className="shrink-0 rounded-full border border-[var(--color-border)] bg-[var(--color-surface)] px-3 py-1.5 text-[11px] font-semibold text-[var(--color-muted)] transition-colors active:bg-[var(--color-bg)]"
                     aria-label={`Compartilhar ${item.label}`}
                   >
                     Não compartilhado
@@ -280,20 +281,20 @@ function RevokeSheet({
       <div ref={backdropRef} className="fixed inset-0 z-40 bg-black/20" onClick={onCancel} aria-hidden />
       <div
         ref={sheetRef}
-        className="fixed bottom-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 rounded-t-[24px] bg-[#252830] p-6 shadow-sheet"
+        className="fixed bottom-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 rounded-t-[24px] bg-[var(--color-surface)] p-6 shadow-sheet"
         role="dialog" aria-modal aria-labelledby="revoke-title"
       >
         <button
-          className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-[#1c1e26] text-[#9a9eab] transition-colors active:bg-[#2f3340]"
+          className="absolute right-4 top-4 flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-bg)] text-[var(--color-muted)] transition-colors active:bg-[var(--color-border)]"
           onClick={onCancel} aria-label="Cancelar"
         >
           <X size={18} aria-hidden />
         </button>
 
-        <h2 id="revoke-title" className="pr-10 text-lg font-semibold text-[#edeef2]">
+        <h2 id="revoke-title" className="pr-10 text-lg font-semibold text-[var(--color-text)]">
           Parar de compartilhar?
         </h2>
-        <p className="mt-2 text-sm leading-relaxed text-[#9a9eab]">
+        <p className="mt-2 text-sm leading-relaxed text-[var(--color-muted)]">
           <strong>{stakeholderName}</strong> vai perder acesso a{" "}
           <strong>{itemLabel}</strong>. Você pode voltar a compartilhar quando quiser.
         </p>
@@ -301,13 +302,13 @@ function RevokeSheet({
         <div className="mt-6 flex flex-col gap-2">
           <button
             onClick={onConfirm}
-            className="w-full rounded-full bg-[#6fb7b0] py-4 font-semibold text-[#1c1e26] transition-opacity active:opacity-80"
+            className="w-full rounded-full bg-[var(--color-accent)] py-4 font-semibold text-[var(--color-accent-fg)] transition-opacity active:opacity-80"
           >
             Parar de compartilhar
           </button>
           <button
             onClick={onCancel}
-            className="w-full rounded-full py-4 font-semibold text-[#9a9eab] transition-colors active:bg-[#1c1e26]"
+            className="w-full rounded-full py-4 font-semibold text-[var(--color-muted)] transition-colors active:bg-[var(--color-bg)]"
           >
             Cancelar
           </button>
