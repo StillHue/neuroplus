@@ -1,0 +1,67 @@
+# ── Dependencies ──────────────────────────────────────────────
+node_modules/
+.pnp
+.pnp.js
+
+# ── Build outputs ─────────────────────────────────────────────
+dist/
+build/
+out/
+.next/
+.turbo/
+*.tsbuildinfo
+
+# ── Environment ───────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# ── OS / Editor ───────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ── Logs ──────────────────────────────────────────────────────
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# ── Testing ───────────────────────────────────────────────────
+coverage/
+.nyc_output/
+
+# ── Prisma ────────────────────────────────────────────────────
+packages/db/generated/
+
+# ── Misc ──────────────────────────────────────────────────────
+.vercel/
+.netlify/
+*.tgz
+
+# ── Secrets (never commit) ────────────────────────────────────
+*.pem
+*.key
+*.p12
+*.pfx
+.env*
+!.env.example
+secrets/
+credentials/
+service-account*.json
+
+# ── Claude ────────────────────────────────────────────────────
+.claude/
+
+# ── Package lock (root only, keep workspace ones) ─────────────
+package-lock.json
