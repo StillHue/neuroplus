@@ -6,13 +6,12 @@ import gsap from "gsap"
 import { useHideNav } from "@/components/NavContext"
 import {
   Frown, Meh, Smile, SmilePlus, Laugh,
-  PenLine, Send, Lightbulb, CheckCircle2,
+  Upload, FileText, CheckCircle2, Trash2,
   UserPlus, X, Users, Crown,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { CollapsibleSection } from "@/components/ui/collapsible-section"
 import { PaywallSheet } from "@/components/upsell/PaywallSheet"
-import { AudioRecorder } from "@/components/routine/AudioRecorder"
 import { ThemeToggle } from "@/components/ThemeToggle"
 
 const USER_PLAN = "FREE" as "FREE" | "PREMIUM"
@@ -45,37 +44,21 @@ interface Caregiver {
   isOwner?: boolean
 }
 
-interface Note {
+interface UploadedDoc {
   id: string
-  text: string
-  createdAt: string
-  insight?: string
+  name: string
+  size: string
+  uploadedAt: string
 }
 
 const INITIAL_CAREGIVERS: Caregiver[] = [
   { id: "1", name: "Ana Silva",  email: "ana@neuroplus.app", role: "MOM", isOwner: true },
 ]
 
-const MOCK_NOTES: Note[] = [
-  {
-    id: "1",
-    text: "Ele ficou muito ansioso antes da consulta de hoje, não queria sair de casa.",
-    createdAt: "Hoje, 14h32",
-    insight: "Padrão observado: ansiedade pré-consulta apareceu 3 vezes esse mês.",
-  },
-  {
-    id: "2",
-    text: "Dormiu bem essa semana. Rotina de dormir às 21h parece estar funcionando.",
-    createdAt: "Ontem, 21h05",
-  },
-]
-
 export default function Cuidador() {
   const [wellbeing, setWellbeing]     = useState<WellbeingLevel | null>(null)
   const [checkinDone, setCheckinDone] = useState(false)
-  const [notes, setNotes]             = useState<Note[]>(MOCK_NOTES)
-  const [draft, setDraft]             = useState("")
-  const [analyzing, setAnalyzing]     = useState(false)
+  const [docs, setDocs]               = useState<UploadedDoc[]>([])
   const [caregivers, setCaregivers]   = useState<Caregiver[]>(INITIAL_CAREGIVERS)
   const [inviteOpen, setInviteOpen]   = useState(false)
   const [paywallOpen, setPaywall]     = useState(false)
@@ -83,7 +66,6 @@ export default function Cuidador() {
   const pageRef   = useRef<HTMLDivElement>(null)
   const headerRef = useRef<HTMLDivElement>(null)
   const cardsRef  = useRef<HTMLDivElement>(null)
-  const notesRef  = useRef<HTMLUListElement>(null)
 
   useGSAP(() => {
     if (!headerRef.current) return
@@ -92,33 +74,27 @@ export default function Cuidador() {
       .from(".care-card",      { y: 20,  opacity: 0, duration: 0.35, stagger: 0.1 }, "-=0.22")
   }, { scope: pageRef })
 
-  useGSAP(() => {
-    const items = notesRef.current?.querySelectorAll<HTMLElement>(".note-item")
-    if (!items?.length) return
-    gsap.from(items, { y: 12, opacity: 0, duration: 0.28, ease: "power2.out", stagger: 0.06 })
-  }, { scope: notesRef, dependencies: [notes.length] })
-
   function handleCheckin(level: WellbeingLevel) {
     setWellbeing(level)
     setTimeout(() => setCheckinDone(true), 400)
   }
 
-  async function submitNote() {
-    if (!draft.trim()) return
-    const newNote: Note = { id: Date.now().toString(), text: draft.trim(), createdAt: "Agora" }
-    setNotes((prev) => [newNote, ...prev])
-    setDraft("")
-    setAnalyzing(true)
-    setTimeout(() => {
-      setNotes((prev) =>
-        prev.map((n) =>
-          n.id === newNote.id
-            ? { ...n, insight: "Anotação registrada. O app vai identificar padrões ao longo do tempo." }
-            : n
-        )
-      )
-      setAnalyzing(false)
-    }, 1800)
+  function handleUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? [])
+    const newDocs: UploadedDoc[] = files.map((f) => ({
+      id: Date.now().toString() + Math.random(),
+      name: f.name,
+      size: f.size < 1024 * 1024
+        ? `${(f.size / 1024).toFixed(0)} KB`
+        : `${(f.size / 1024 / 1024).toFixed(1)} MB`,
+      uploadedAt: "Agora",
+    }))
+    setDocs((prev) => [...newDocs, ...prev])
+    e.target.value = ""
+  }
+
+  function removeDoc(id: string) {
+    setDocs((prev) => prev.filter((d) => d.id !== id))
   }
 
   function handleInvite() {
@@ -231,65 +207,56 @@ export default function Cuidador() {
           </div>
         </div>
 
-        {/* Notes input */}
-        <div className="care-card rounded-2xl bg-[var(--color-surface)] shadow-card">
+        {/* Upload de documentos */}
+        <div className="care-card rounded-2xl bg-[var(--color-surface)] shadow-card overflow-hidden">
           <div className="px-4 py-3">
             <div className="flex items-center gap-2 mb-3">
-              <PenLine size={14} className="text-[var(--color-muted-2)]" aria-hidden />
-              <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-muted-2)]">Bloco de notas</span>
+              <FileText size={14} className="text-[var(--color-muted-2)]" aria-hidden />
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-[var(--color-muted-2)]">Exames e laudos</span>
             </div>
-            <textarea
-              value={draft}
-              onChange={(e) => setDraft(e.target.value)}
-              placeholder="Escreva o que está na sua cabeça — observações, percepções, dúvidas…"
-              rows={3}
-              className="w-full resize-none bg-transparent text-sm leading-relaxed text-[var(--color-text)] outline-none placeholder:text-[var(--color-muted-3)]"
-              aria-label="Nova nota"
-            />
-            {draft.trim() && (
-              <div className="mt-2 flex justify-end border-t border-[var(--color-border)] pt-2">
-                <button
-                  onClick={submitNote}
-                  disabled={analyzing}
-                  className="flex items-center gap-1.5 rounded-full bg-[var(--color-accent)] px-4 py-2 text-xs font-semibold text-[var(--color-accent-fg)] transition-opacity active:opacity-80 disabled:opacity-40"
-                >
-                  <Send size={12} aria-hidden />
-                  Salvar
-                </button>
+
+            <label className="flex cursor-pointer items-center gap-3 rounded-xl border border-dashed border-[var(--color-border-strong)] px-4 py-3.5 transition-colors active:bg-[var(--color-bg)]">
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[var(--color-bg)] text-[var(--color-accent)]">
+                <Upload size={16} aria-hidden />
+              </span>
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-medium text-[var(--color-text)]">Enviar arquivo</p>
+                <p className="text-xs text-[var(--color-muted)]">PDF, imagem ou documento</p>
               </div>
+              <input
+                type="file"
+                accept=".pdf,.jpg,.jpeg,.png,.webp,.doc,.docx"
+                multiple
+                className="sr-only"
+                onChange={handleUpload}
+                aria-label="Selecionar arquivo para upload"
+              />
+            </label>
+
+            {docs.length > 0 && (
+              <ul className="mt-3 flex flex-col gap-0.5">
+                {docs.map((doc) => (
+                  <li key={doc.id} className="flex items-center gap-3 rounded-xl px-1 py-2.5">
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-[var(--color-bg)] text-[var(--color-muted-2)]">
+                      <FileText size={14} aria-hidden />
+                    </span>
+                    <div className="flex-1 min-w-0">
+                      <p className="truncate text-sm font-medium text-[var(--color-text)]">{doc.name}</p>
+                      <p className="text-xs text-[var(--color-muted)]">{doc.size} · {doc.uploadedAt}</p>
+                    </div>
+                    <button
+                      onClick={() => removeDoc(doc.id)}
+                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-[var(--color-muted-2)] transition-colors active:bg-[var(--color-bg)]"
+                      aria-label={`Remover ${doc.name}`}
+                    >
+                      <Trash2 size={13} aria-hidden />
+                    </button>
+                  </li>
+                ))}
+              </ul>
             )}
           </div>
         </div>
-
-        {/* Audio recorder — Premium */}
-        <AudioRecorder
-          isPremium={USER_PLAN === "PREMIUM"}
-          onEntries={(entries) => {
-            entries.forEach((e) => {
-              const newNote: Note = {
-                id: Date.now().toString() + Math.random(),
-                text: `[${e.category}] ${e.notes}`,
-                createdAt: "Agora",
-              }
-              setNotes((prev) => [newNote, ...prev])
-            })
-          }}
-        />
-
-        {/* Saved notes */}
-        {notes.length > 0 && (
-          <div className="care-card rounded-2xl bg-[var(--color-surface)] shadow-card overflow-hidden">
-            <div className="px-4 py-3">
-              <CollapsibleSection title="Anotações">
-                <ul ref={notesRef} className="flex flex-col">
-                  {notes.map((note) => (
-                    <NoteCard key={note.id} note={note} analyzing={analyzing && !note.insight} />
-                  ))}
-                </ul>
-              </CollapsibleSection>
-            </div>
-          </div>
-        )}
       </div>
 
       {inviteOpen && (
@@ -297,36 +264,6 @@ export default function Cuidador() {
       )}
       {paywallOpen && (
         <PaywallSheet onClose={() => setPaywall(false)} onSubscribe={() => setPaywall(false)} />
-      )}
-    </div>
-  )
-}
-
-function NoteCard({ note, analyzing }: { note: Note; analyzing: boolean }) {
-  const ref = useRef<HTMLDivElement>(null)
-  useGSAP(() => {
-    gsap.from(ref.current, { y: 12, opacity: 0, duration: 0.25, ease: "power2.out" })
-  }, { scope: ref })
-
-  return (
-    <div ref={ref} className="note-item border-b border-[var(--color-border)] last:border-0 py-3">
-      <p className="text-sm leading-relaxed text-[var(--color-text)]">{note.text}</p>
-      <p className="mt-1 text-[11px] text-[var(--color-muted-2)]">{note.createdAt}</p>
-      {analyzing && (
-        <div className="mt-2 flex items-center gap-2 rounded-xl bg-[var(--color-bg)] px-3 py-2">
-          <span className="text-xs text-[var(--color-muted)]">Analisando</span>
-          <span className="flex gap-1">
-            {[0, 1, 2].map((i) => (
-              <span key={i} className="h-1.5 w-1.5 animate-pulse-dot rounded-full bg-[var(--color-muted-2)]" style={{ animationDelay: `${i * 0.2}s` }} />
-            ))}
-          </span>
-        </div>
-      )}
-      {note.insight && (
-        <div className="mt-2 flex items-start gap-2 rounded-xl bg-[var(--color-bg)] px-3 py-2.5">
-          <Lightbulb size={13} className="mt-0.5 shrink-0 text-[var(--color-muted)]" aria-hidden />
-          <p className="text-xs leading-relaxed text-[var(--color-muted)]">{note.insight}</p>
-        </div>
       )}
     </div>
   )
