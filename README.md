@@ -105,3 +105,21 @@ Para se aprofundar nas diretrizes de produto, arquitetura e relatórios de confo
 *   **📐 [Arquitetura & Infraestrutura do Sistema](./ARCHITECTURE.md):** Diagramas técnicos de dados, árvore de componentes React 19 e fluxos de consentimento.
 *   **🔍 [Qualidade de Código & Code Review](./review_report.md):** Inspeção de usabilidade, GSAP hooks e melhores práticas do Next.js.
 *   **🛡️ [Segurança & Auditoria de Riscos](./security_audit.md):** Avaliação de vulnerabilidades mitigadas e conformidade técnica com a LGPD.
+
+---
+
+## 👥 Equipe Envolvida
+
+<div align="center">
+
+![Equipe Neuro +](./logoclean.png)
+
+| Membro | Atribuição |
+| :--- | :--- |
+| **Ariadina** | Designer |
+| **Débora** | Negócios |
+| **Gabriel** | Desenvolvedor |
+| **M. Beatriz** | Negócios |
+| **Paulo H.** | Desenvolvedor |
+
+</div>
