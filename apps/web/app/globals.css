@@ -109,7 +109,7 @@
     min-height: 100vh;
     background-color: var(--color-bg);
     box-shadow: 0 0 0 1px var(--shell-ring), 0 8px 48px var(--shell-shadow);
-    overflow: hidden;
+    overflow-x: hidden;
   }
 
   .check-box {
