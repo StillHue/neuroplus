@@ -92,7 +92,7 @@ export function BottomNav({ badges = {} }: BottomNavProps) {
     >
       {/* White pill */}
       <div
-        className="pointer-events-auto flex w-full max-w-[398px] items-center rounded-full bg-[#252830] shadow-nav px-2"
+        className="pointer-events-auto flex w-full max-w-[398px] items-center rounded-full bg-[var(--color-surface)] shadow-nav px-2"
         style={{ height: "64px" }}
       >
         <ul className="flex flex-1 items-stretch" role="tablist">
@@ -113,7 +113,7 @@ export function BottomNav({ badges = {} }: BottomNavProps) {
                     ref={(el) => { pillRefs.current[i] = el }}
                     className={cn(
                       "flex items-center justify-center gap-1.5 rounded-full py-2 transition-colors",
-                      active ? "bg-[#6fb7b0] text-[#1c1e26]" : "text-[#6b7080]",
+                      active ? "bg-[var(--color-accent)] text-[var(--color-accent-fg)]" : "text-[var(--color-muted-2)]",
                     )}
                     style={{
                       paddingLeft:  active ? "14px" : "10px",
@@ -137,7 +137,7 @@ export function BottomNav({ badges = {} }: BottomNavProps) {
 
                   {badgeCount != null && badgeCount > 0 && (
                     <span
-                      className="absolute right-2 top-1.5 flex h-[14px] min-w-[14px] items-center justify-center rounded-full bg-[#6fb7b0] px-0.5 text-[9px] font-bold leading-none text-[#1c1e26]"
+                      className="absolute right-2 top-1.5 flex h-[14px] min-w-[14px] items-center justify-center rounded-full bg-[var(--color-accent)] px-0.5 text-[9px] font-bold leading-none text-[var(--color-accent-fg)]"
                       aria-label={`${badgeCount} atualizações`}
                     >
                       {badgeCount > 9 ? "9+" : badgeCount}
@@ -153,7 +153,7 @@ export function BottomNav({ badges = {} }: BottomNavProps) {
         <Link
           href="/jornada/triagem"
           aria-label="Iniciar triagem"
-          className="ml-2 mr-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[#6fb7b0] text-[#1c1e26] shadow-fab transition-opacity active:opacity-80"
+          className="ml-2 mr-1 flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-[var(--color-accent)] text-[var(--color-accent-fg)] shadow-fab transition-opacity active:opacity-80"
         >
           <Plus size={22} strokeWidth={2} aria-hidden />
         </Link>
