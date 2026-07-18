@@ -1,0 +1,38 @@
+{
+  "name": "@neuroplus/dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --port 3001",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@neuroplus/auth": "*",
+    "@neuroplus/db": "*",
+    "@neuroplus/hooks": "*",
+    "@neuroplus/i18n": "*",
+    "@neuroplus/types": "*",
+    "@neuroplus/ui": "*",
+    "@neuroplus/utils": "*",
+    "@neuroplus/validators": "*",
+    "@trpc/client": "^11.0.0",
+    "@trpc/next": "^11.0.0",
+    "@trpc/react-query": "^11.0.0",
+    "@trpc/server": "^11.0.0",
+    "next": "^15.0.0",
+    "next-auth": "5.0.0-beta.31",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zustand": "^5.0.0",
+    "zod": "^3.0.0"
+  },
+  "devDependencies": {
+    "@neuroplus/config": "*",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.0.0"
+  }
+}
