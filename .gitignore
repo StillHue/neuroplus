@@ -63,3 +63,7 @@ service-account*.json
 # ── Claude ────────────────────────────────────────────────────
 .claude/
 .vercel
+
+# ── Local Workspace / Logs ────────────────────────────────────
+WORKSPACE.md
+LOGS.md

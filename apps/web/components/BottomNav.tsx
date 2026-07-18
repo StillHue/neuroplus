@@ -9,12 +9,14 @@ import gsap from "gsap"
 import { cn } from "@/lib/utils"
 import { useNav } from "@/components/NavContext"
 
-const TABS: {
+interface TabItem {
   href: string
   label: string
-  Icon: typeof Home
+  Icon: React.ComponentType<{ size?: number; strokeWidth?: number; "aria-hidden"?: boolean }>
   badge?: boolean
-}[] = [
+}
+
+const TABS: readonly TabItem[] = [
   { href: "/inicio",   label: "Home",     Icon: Home     },
   { href: "/jornada",  label: "Insights", Icon: BarChart2, badge: true },
   { href: "/cuidador", label: "Profile",  Icon: User     },

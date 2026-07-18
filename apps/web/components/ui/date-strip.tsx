@@ -1,6 +1,7 @@
 "use client"
 
 import { cn } from "@/lib/utils"
+import { useState, useEffect } from "react"
 
 interface DayItem {
   label: string
@@ -28,30 +29,45 @@ function getWeekDays(): DayItem[] {
 }
 
 export function DateStrip() {
-  const days = getWeekDays()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const days = mounted ? getWeekDays() : []
 
   return (
     <div className="flex items-center justify-between gap-1">
-      {days.map((d, i) => (
-        <button
-          key={i}
-          className={cn(
-            "flex flex-1 flex-col items-center gap-1 rounded-2xl py-2.5 transition-colors",
-            d.isToday
-              ? "bg-[var(--color-accent)] text-[var(--color-accent-fg)]"
-              : "text-[var(--color-muted-2)] hover:bg-surface-border"
-          )}
-          aria-label={`${d.label} ${d.date}`}
-          aria-current={d.isToday ? "date" : undefined}
-        >
-          <span className={cn("text-[11px] leading-none", d.isToday ? "text-[var(--color-accent-fg)] opacity-70" : "")}>
-            {d.label}
-          </span>
-          <span className={cn("text-[15px] font-semibold leading-none", d.isToday ? "text-[var(--color-accent-fg)]" : "text-[var(--color-text)]")}>
-            {d.date}
-          </span>
-        </button>
-      ))}
+      {mounted ? (
+        days.map((d, i) => (
+          <button
+            key={i}
+            className={cn(
+              "flex flex-1 flex-col items-center gap-1 rounded-2xl py-2.5 transition-colors",
+              d.isToday
+                ? "bg-[var(--color-accent)] text-[var(--color-accent-fg)]"
+                : "text-[var(--color-muted-2)] hover:bg-surface-border"
+            )}
+            aria-label={`${d.label} ${d.date}`}
+            aria-current={d.isToday ? "date" : undefined}
+          >
+            <span className={cn("text-[11px] leading-none", d.isToday ? "text-[var(--color-accent-fg)] opacity-70" : "")}>
+              {d.label}
+            </span>
+            <span className={cn("text-[15px] font-semibold leading-none", d.isToday ? "text-[var(--color-accent-fg)]" : "text-[var(--color-text)]")}>
+              {d.date}
+            </span>
+          </button>
+        ))
+      ) : (
+        Array.from({ length: 6 }).map((_, i) => (
+          <div key={i} className="flex flex-1 flex-col items-center gap-1 rounded-2xl py-2.5 opacity-20">
+            <span className="text-[11px] leading-none text-[var(--color-muted-2)]">-</span>
+            <span className="text-[15px] font-semibold leading-none text-[var(--color-text)]">-</span>
+          </div>
+        ))
+      )}
     </div>
   )
 }
