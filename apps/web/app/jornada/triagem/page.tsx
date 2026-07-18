@@ -105,7 +105,10 @@ export default function TriagemPage() {
   return (
     <div ref={containerRef} className="app-shell flex h-dvh flex-col bg-[var(--color-bg)]">
       {/* Header */}
-      <header className="flex items-center gap-3 bg-[var(--color-surface)] px-4 py-3 shadow-[0_1px_0_var(--color-border)]">
+      <header
+        className="flex shrink-0 items-center gap-3 bg-[var(--color-surface)] px-4 pb-3 shadow-[0_1px_0_var(--color-border)]"
+        style={{ paddingTop: "calc(0.75rem + env(safe-area-inset-top, 0px))" }}
+      >
         <button
           onClick={() => router.back()}
           className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--color-bg)] text-[var(--color-muted)] transition-colors active:bg-[var(--color-border)]"
@@ -121,7 +124,7 @@ export default function TriagemPage() {
       </header>
 
       {/* Messages */}
-      <div className="flex flex-1 flex-col gap-3 overflow-y-auto overscroll-contain px-4 py-4">
+      <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto overscroll-contain px-4 py-4">
         {messages.map((msg) => (
           <ChatBubble key={msg.id} message={msg} onMount={animateNewMessage} />
         ))}
@@ -131,8 +134,8 @@ export default function TriagemPage() {
 
       {/* Input */}
       <div
-        className="bg-[var(--color-surface)] px-4 py-3 shadow-[0_-1px_0_var(--color-border)]"
-        style={{ paddingBottom: "calc(12px + env(safe-area-inset-bottom, 0px))" }}
+        className="shrink-0 bg-[var(--color-surface)] px-4 pt-3 shadow-[0_-1px_0_var(--color-border)]"
+        style={{ paddingBottom: "calc(0.75rem + env(safe-area-inset-bottom, 0px))" }}
       >
         <div className="flex items-end gap-2 rounded-2xl bg-[var(--color-bg)] px-3 py-2">
           <textarea
