@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="./logoclean.png" alt="Neuro + Logo" width="440" /><br/>
+  <img src="https://raw.githubusercontent.com/StillHue/neuroplus/feature/melhorias-layout-e-seguranca/logoclean.png" alt="Neuro + Logo" width="440" /><br/>
 
 **O copiloto e navegador digital da jornada de famílias neurodivergentes no SUS.**
 
